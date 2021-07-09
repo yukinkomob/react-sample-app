@@ -1,3 +1,9 @@
+# Prepare to use this app
+
+Before you start to use this app, please execute which follow commands.
+
+`npm install` or `yarn install`
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
