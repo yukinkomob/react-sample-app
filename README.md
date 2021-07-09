@@ -1,6 +1,6 @@
 # Prepare to use this app
 
-Before you start to use this app, please execute which follow commands.
+Before you start using this app, please execute one of the following commands.
 
 `npm install` or `yarn install`
 
