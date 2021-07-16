@@ -15,7 +15,12 @@ const randomTask = [
 ]
 
 function App() {
-  const [item, setItem] = useState({ id: -1, text: '', isComplete: false })
+  const [item, setItem] = useState({
+    id: -1,
+    text: '',
+    isComplete: false,
+    isFocus: false,
+  })
   const [dummy, setDummy] = useState({ text: '', isComplete: false })
 
   const handleChange = (e) => {
@@ -41,6 +46,7 @@ function App() {
 
   const changeIsCompleted = (e) => {
     e.preventDefault()
+    e.stopPropagation()
     const id = e.target.id
     const item = list.find((item) => item.id == id)
     item.isComplete = !item.isComplete
@@ -51,8 +57,20 @@ function App() {
 
   const deleteItem = (e) => {
     e.preventDefault()
+    e.stopPropagation()
     const id = e.target.id
     list = list.filter((item) => item.id != id)
+    let newDummy = { ...dummy }
+    setDummy(newDummy)
+  }
+
+  const setFocus = (id) => {
+    console.log('setFocus')
+    console.log(id)
+    const item = list.find((item) => item.id === id)
+    // const currentFocusState = item.isFocus
+    // list = list.forEach((item) => (item.isFocus = false))
+    item.isFocus = !item.isFocus
     let newDummy = { ...dummy }
     setDummy(newDummy)
   }
@@ -87,8 +105,15 @@ function App() {
               .filter((item) => item.isComplete === false)
               .map((item) => (
                 <li
+                  onClick={() => {
+                    setFocus(item.id)
+                  }}
                   key={item.id}
-                  className="w-1/2 p-2 mr-2 inline-block border"
+                  className={
+                    item.isFocus
+                      ? 'w-1/2 p-2 mr-2 inline-block border border-blue-300'
+                      : 'w-1/2 p-2 mr-2 inline-block border'
+                  }
                 >
                   <div className="flex justify-evenly">
                     <span className="text-center w-3/4">{item.text}</span>
