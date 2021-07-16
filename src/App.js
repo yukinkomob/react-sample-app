@@ -52,7 +52,6 @@ function App() {
     item.isComplete = !item.isComplete
     let newDummy = { ...dummy }
     setDummy(newDummy)
-    e.target.value = ''
   }
 
   const deleteItem = (e) => {
@@ -65,12 +64,10 @@ function App() {
   }
 
   const setFocus = (id) => {
-    console.log('setFocus')
-    console.log(id)
     const item = list.find((item) => item.id === id)
-    // const currentFocusState = item.isFocus
-    // list = list.forEach((item) => (item.isFocus = false))
-    item.isFocus = !item.isFocus
+    const currentFocusState = item.isFocus
+    list.forEach((item) => (item.isFocus = false))
+    item.isFocus = !currentFocusState
     let newDummy = { ...dummy }
     setDummy(newDummy)
   }
