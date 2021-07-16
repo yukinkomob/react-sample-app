@@ -9,7 +9,6 @@ function App() {
 
   const handleChange = (e) => {
     setItem({ ...item, text: e.target.value })
-    console.log('レンダリング handleChange')
   }
 
   const onClickRegisterBtn = (e) => {
@@ -17,9 +16,21 @@ function App() {
     let newItem = { ...item }
     setItem(newItem)
     list.push(item)
-    console.log(list)
-    console.log('レンダリング onClickRegisterBtn')
     e.target.value = ''
+  }
+
+  const changeIsCompleted = (e) => {
+    e.preventDefault()
+    console.log('change')
+  }
+
+  const deleteItem = (e) => {
+    e.preventDefault()
+    const id = e.target.id
+    delete list[id]
+    let newDummy = { ...dummy }
+    setDummy(newDummy)
+    console.log('del id:' + id)
   }
 
   console.log('レンダリングApp')
@@ -52,37 +63,19 @@ function App() {
           <h2 className="text-2xl m-2 p-2 text-blue-800">未完了</h2>
           <ul className="m-4 text-center">
             {console.log('レンダリングHTML2 size=' + list.length)}
-            {/* {list[0]?.text} */}
             {list.map((item, index) => (
-              // console.log('レンダリングHTML3')
-              <li key={index}>{item.text}</li>
+              <li key={index} className="w-1/2 p-2 mr-2 inline-block border">
+                <div className="flex justify-evenly">
+                  <span className="text-center w-3/4">{item.text}</span>
+                  <button className="mx-2" onClick={changeIsCompleted}>
+                    ✅
+                  </button>
+                  <button id={index} className="mx-2" onClick={deleteItem}>
+                    ✖
+                  </button>
+                </div>
+              </li>
             ))}
-            <li className="w-1/2 p-2 mr-2 inline-block border">
-              <div className="flex justify-evenly">
-                <span className="text-center w-3/4">掃除をする</span>
-                <button className="mx-2">✅</button>
-                <button className="mx-2">✖</button>
-              </div>
-            </li>
-            <br />
-            <li className="w-1/2 p-2 mr-2 inline-block border">
-              <div className="flex justify-evenly">
-                <span className="text-center w-3/4">整理整頓をする</span>
-                <button className="mx-2">✅</button>
-                <button className="mx-2">✖</button>
-              </div>
-            </li>
-            <br />
-            <li className="w-1/2 p-2 mr-2 inline-block border">
-              <div className="flex justify-evenly">
-                <span className="text-center w-3/4">
-                  スケジュールを更新する
-                </span>
-                <button className="mx-2">✅</button>
-                <button className="mx-2">✖</button>
-              </div>
-            </li>
-            <br />
           </ul>
           <h2 className="text-2xl m-2 p-2 text-blue-800">完了</h2>
           <ul className="m-4 text-center">
