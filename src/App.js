@@ -1,6 +1,10 @@
 import React from 'react'
 
 function App() {
+  const onClickRegisterBtn = () => {
+    console.log('clicked!')
+  }
+
   return (
     <div className="App">
       <div>
@@ -13,7 +17,12 @@ function App() {
             type="text"
             placeholder="例：買い物に行く"
           />
-          <button className="bg-blue-200 py-2 px-4 text-blue-500">✙</button>
+          <button
+            onClick={onClickRegisterBtn}
+            className="bg-blue-200 py-2 px-4 text-blue-500"
+          >
+            ✙
+          </button>
         </div>
         <div>
           <h2 className="text-2xl m-2 p-2 text-blue-800">未完了</h2>
