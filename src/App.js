@@ -2,6 +2,17 @@ import React, { useState } from 'react'
 
 let list = []
 let num = 0
+const randomTask = [
+  '掃除をする',
+  '歯を磨く',
+  '整理整頓をする',
+  '日記を書く',
+  'ごみをまとめる',
+  '食事をする',
+  '課題をやる',
+  '学習をする',
+  '家計簿をつける',
+]
 
 function App() {
   const [item, setItem] = useState({ id: -1, text: '', isComplete: false })
@@ -11,46 +22,43 @@ function App() {
     setItem({ ...item, text: e.target.value })
   }
 
+  const getRandomTask = () => {
+    const index = Math.floor(Math.random() * randomTask.length)
+    return randomTask[index]
+  }
+
   const registerItem = (e) => {
     e.preventDefault()
     let newItem = { ...item }
+    if (newItem.text === '') {
+      newItem.text = getRandomTask()
+    }
     newItem.id = num++
-    console.log('updated id: ' + num)
     setItem(newItem)
     list.push(newItem)
-    e.target.value = ''
+    setItem({ ...item, text: '' })
   }
 
   const changeIsCompleted = (e) => {
     e.preventDefault()
     const id = e.target.id
     const item = list.find((item) => item.id == id)
-    console.log('id:' + id, ', text:' + item.text)
     item.isComplete = !item.isComplete
     let newDummy = { ...dummy }
     setDummy(newDummy)
-    console.log('change')
     e.target.value = ''
   }
 
   const deleteItem = (e) => {
     e.preventDefault()
     const id = e.target.id
-    console.log('delete id ' + id)
     list = list.filter((item) => item.id != id)
-    // list.splice(id, 1)
-    // delete list[id]
     let newDummy = { ...dummy }
     setDummy(newDummy)
-    console.log('del id:' + id)
-    console.log(list)
   }
-
-  console.log('レンダリングApp')
 
   return (
     <div className="App">
-      {console.log('レンダリングHTML')}
       <div>
         <div className="text-center">
           <h1 className="text-center text-3xl p-3 text-white bg-blue-800">
@@ -75,7 +83,6 @@ function App() {
         <div>
           <h2 className="text-2xl m-2 p-2 text-blue-800">未完了</h2>
           <ul className="m-4 text-center">
-            {console.log('レンダリングHTML2 size=' + list.length)}
             {list
               .filter((item) => item.isComplete === false)
               .map((item) => (
