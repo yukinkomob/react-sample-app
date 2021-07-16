@@ -1,36 +1,49 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
-const list = []
-const numlist = [1, 2, 3]
+let list = []
+let num = 0
 
 function App() {
-  const [item, setItem] = useState({ text: '', isComplete: false })
+  const [item, setItem] = useState({ id: -1, text: '', isComplete: false })
   const [dummy, setDummy] = useState({ text: '', isComplete: false })
 
   const handleChange = (e) => {
     setItem({ ...item, text: e.target.value })
   }
 
-  const onClickRegisterBtn = (e) => {
+  const registerItem = (e) => {
     e.preventDefault()
     let newItem = { ...item }
+    newItem.id = num++
+    console.log('updated id: ' + num)
     setItem(newItem)
-    list.push(item)
+    list.push(newItem)
     e.target.value = ''
   }
 
   const changeIsCompleted = (e) => {
     e.preventDefault()
+    const id = e.target.id
+    const item = list.find((item) => item.id == id)
+    console.log('id:' + id, ', text:' + item.text)
+    item.isComplete = !item.isComplete
+    let newDummy = { ...dummy }
+    setDummy(newDummy)
     console.log('change')
+    e.target.value = ''
   }
 
   const deleteItem = (e) => {
     e.preventDefault()
     const id = e.target.id
-    delete list[id]
+    console.log('delete id ' + id)
+    list = list.filter((item) => item.id != id)
+    // list.splice(id, 1)
+    // delete list[id]
     let newDummy = { ...dummy }
     setDummy(newDummy)
     console.log('del id:' + id)
+    console.log(list)
   }
 
   console.log('レンダリングApp')
@@ -52,7 +65,7 @@ function App() {
               placeholder="例：買い物に行く"
             />
             <button
-              onClick={onClickRegisterBtn}
+              onClick={registerItem}
               className="bg-blue-200 py-2 px-4 text-blue-500"
             >
               ✙
@@ -63,46 +76,53 @@ function App() {
           <h2 className="text-2xl m-2 p-2 text-blue-800">未完了</h2>
           <ul className="m-4 text-center">
             {console.log('レンダリングHTML2 size=' + list.length)}
-            {list.map((item, index) => (
-              <li key={index} className="w-1/2 p-2 mr-2 inline-block border">
-                <div className="flex justify-evenly">
-                  <span className="text-center w-3/4">{item.text}</span>
-                  <button className="mx-2" onClick={changeIsCompleted}>
-                    ✅
-                  </button>
-                  <button id={index} className="mx-2" onClick={deleteItem}>
-                    ✖
-                  </button>
-                </div>
-              </li>
-            ))}
+            {list
+              .filter((item) => item.isComplete === false)
+              .map((item) => (
+                <li
+                  key={item.id}
+                  className="w-1/2 p-2 mr-2 inline-block border"
+                >
+                  <div className="flex justify-evenly">
+                    <span className="text-center w-3/4">{item.text}</span>
+                    <button
+                      id={item.id}
+                      className="mx-2"
+                      onClick={changeIsCompleted}
+                    >
+                      ✅
+                    </button>
+                    <button id={item.id} className="mx-2" onClick={deleteItem}>
+                      ✖
+                    </button>
+                  </div>
+                </li>
+              ))}
           </ul>
           <h2 className="text-2xl m-2 p-2 text-blue-800">完了</h2>
           <ul className="m-4 text-center">
-            <li className="w-1/2 p-2 mr-2 inline-block border">
-              <div className="flex justify-evenly">
-                <span className="text-center w-3/4">メモの整理</span>
-                <button className="mx-2">🔲</button>
-                <button className="mx-2">✖</button>
-              </div>
-            </li>
-            <br />
-            <li className="w-1/2 p-2 mr-2 inline-block border">
-              <div className="flex justify-evenly">
-                <span className="text-center w-3/4">家計簿をつける</span>
-                <button className="mx-2">🔲</button>
-                <button className="mx-2">✖</button>
-              </div>
-            </li>
-            <br />
-            <li className="w-1/2 p-2 mr-2 inline-block border">
-              <div className="flex justify-evenly">
-                <span className="text-center w-3/4">父に連絡する</span>
-                <button className="mx-2">🔲</button>
-                <button className="mx-2">✖</button>
-              </div>
-            </li>
-            <br />
+            {list
+              .filter((item) => item.isComplete === true)
+              .map((item) => (
+                <li
+                  key={item.id}
+                  className="w-1/2 p-2 mr-2 inline-block border"
+                >
+                  <div className="flex justify-evenly">
+                    <span className="text-center w-3/4">{item.text}</span>
+                    <button
+                      id={item.id}
+                      className="mx-2"
+                      onClick={changeIsCompleted}
+                    >
+                      🔲
+                    </button>
+                    <button id={item.id} className="mx-2" onClick={deleteItem}>
+                      ✖
+                    </button>
+                  </div>
+                </li>
+              ))}
           </ul>
         </div>
       </div>
