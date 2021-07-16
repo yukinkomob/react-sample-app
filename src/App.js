@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 function App() {
+  const [text, setText] = useState('')
+  const handleChange = (e) => {
+    setText(() => e.target.value)
+  }
   const onClickRegisterBtn = () => {
-    console.log('clicked!')
+    console.log(text)
   }
 
   return (
@@ -13,6 +17,8 @@ function App() {
             ToDoアプリ
           </h1>
           <input
+            value={text}
+            onChange={handleChange}
             className="m-2 p-2 border border-blue-500 w-80"
             type="text"
             placeholder="例：買い物に行く"
