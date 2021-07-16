@@ -69,9 +69,9 @@
     "workbox-webpack-plugin": "5.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject",
     "format": "prettier --write ./src/*.js"
   },
@@ -151,8 +151,11 @@
     ]
   },
   "devDependencies": {
+    "autoprefixer": "^9.8.6",
     "eslint": "^7.30.0",
     "eslint-plugin-react": "^7.24.0",
-    "prettier": "2.3.2"
+    "postcss": "^7.0.36",
+    "prettier": "2.3.2",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.4"
   }
 }
