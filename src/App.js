@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 
 let list = []
 let num = 0
+let focusInfo = { id: -1, isFocus: false }
+
 const randomTask = [
   '掃除をする',
   '歯を磨く',
@@ -44,6 +46,15 @@ function App() {
     setItem({ ...item, text: '' })
   }
 
+  const editItem = (e) => {
+    e.preventDefault()
+    let currentItem = list.find((item) => item.id == focusInfo.id)
+    currentItem.text = item.text
+    currentItem.isFocus = false
+    focusInfo = { id: -1, isFocus: false }
+    setItem({ ...item, text: '' })
+  }
+
   const changeIsCompleted = (e) => {
     e.preventDefault()
     e.stopPropagation()
@@ -64,10 +75,18 @@ function App() {
   }
 
   const setFocus = (id) => {
-    const item = list.find((item) => item.id === id)
-    const currentFocusState = item.isFocus
+    const targetItem = list.find((item) => item.id === id)
+    const currentFocusState = targetItem.isFocus
     list.forEach((item) => (item.isFocus = false))
-    item.isFocus = !currentFocusState
+    targetItem.isFocus = !currentFocusState
+    focusInfo = targetItem.isFocus
+      ? { id: targetItem.id, isFocus: true }
+      : { id: -1, isFocus: false }
+    if (focusInfo.isFocus) {
+      setItem({ ...item, text: targetItem.text })
+    } else {
+      setItem({ ...item, text: '' })
+    }
     let newDummy = { ...dummy }
     setDummy(newDummy)
   }
@@ -83,15 +102,19 @@ function App() {
             <input
               onChange={handleChange}
               value={item.text}
-              className="m-2 p-2 border border-blue-500 w-80"
+              className={
+                focusInfo.isFocus
+                  ? 'm-2 p-2 border border-green-500 w-80'
+                  : 'm-2 p-2 border border-blue-500 w-80'
+              }
               type="text"
               placeholder="例：買い物に行く"
             />
             <button
-              onClick={registerItem}
+              onClick={focusInfo.isFocus ? editItem : registerItem}
               className="bg-blue-200 py-2 px-4 text-blue-500"
             >
-              ✙
+              {focusInfo.isFocus ? 'Save' : '✙'}
             </button>
           </form>
         </div>
@@ -119,7 +142,7 @@ function App() {
                       className="mx-2"
                       onClick={changeIsCompleted}
                     >
-                      ✅
+                      🔲
                     </button>
                     <button id={item.id} className="mx-2" onClick={deleteItem}>
                       ✖
@@ -134,8 +157,15 @@ function App() {
               .filter((item) => item.isComplete === true)
               .map((item) => (
                 <li
+                  onClick={() => {
+                    setFocus(item.id)
+                  }}
                   key={item.id}
-                  className="w-1/2 p-2 mr-2 inline-block border"
+                  className={
+                    item.isFocus
+                      ? 'w-1/2 p-2 mr-2 inline-block border border-blue-300'
+                      : 'w-1/2 p-2 mr-2 inline-block border'
+                  }
                 >
                   <div className="flex justify-evenly">
                     <span className="text-center w-3/4">{item.text}</span>
@@ -144,7 +174,7 @@ function App() {
                       className="mx-2"
                       onClick={changeIsCompleted}
                     >
-                      🔲
+                      ✅
                     </button>
                     <button id={item.id} className="mx-2" onClick={deleteItem}>
                       ✖
