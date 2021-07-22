@@ -1,21 +1,28 @@
 import React from 'react'
-import DayPicker from 'react-day-picker'
-import 'react-day-picker/lib/style.css'
+import { useState } from 'react'
+import { Dialog } from '@headlessui/react'
 
-const birthdayStyle = `.DayPicker-Day--highlighted {
-  background-color: orange;
-  color: white;
-}`
+function App4() {
+  let [isOpen, setIsOpen] = useState(true)
 
-const modifiers = {
-  highlighted: new Date(2018, 8, 19),
-}
-
-export default function App4() {
   return (
-    <div>
-      <style>{birthdayStyle}</style>
-      <DayPicker modifiers={modifiers} month={new Date(2018, 8)} />
-    </div>
+    <Dialog open={isOpen} onClose={() => setIsOpen(false)}>
+      <Dialog.Overlay />
+
+      <Dialog.Title>Deactivate account</Dialog.Title>
+      <Dialog.Description>
+        This will permanently deactivate your account
+      </Dialog.Description>
+
+      <p>
+        Are you sure you want to deactivate your account? All of your data will
+        be permanently removed. This action cannot be undone.
+      </p>
+
+      <button onClick={() => setIsOpen(false)}>Deactivate</button>
+      <button onClick={() => setIsOpen(false)}>Cancel</button>
+    </Dialog>
   )
 }
+
+export default App4

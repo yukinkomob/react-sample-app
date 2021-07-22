@@ -117,6 +117,7 @@ function App2() {
 
   return (
     <div className="App">
+      <Link to="/a4">jump</Link>
       <div>
         <div className="text-center">
           <h1 className="text-center text-3xl p-3 text-white bg-blue-800">
