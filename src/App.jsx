@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import App4 from './App4'
+import App5 from './App5'
+import toast, { Toaster } from 'react-hot-toast'
 
 let list = []
 let num = 0
@@ -27,6 +29,9 @@ function App() {
         </Route>
         <Route path="/a4">
           <App4 />
+        </Route>
+        <Route path="/a5">
+          <App5 />
         </Route>
         <Route path="/">
           <App2 />
@@ -115,9 +120,17 @@ function App2() {
     setDummy(newDummy)
   }
 
+  const showToast = () => {
+    toast('Hello World')
+  }
+
   return (
     <div className="App">
-      <Link to="/a4">jump</Link>
+      <div>
+        <Toaster />
+      </div>
+      <Link to="/a4">jump </Link>
+      <button onClick={showToast}> toast</button>
       <div>
         <div className="text-center">
           <h1 className="text-center text-3xl p-3 text-white bg-blue-800">
