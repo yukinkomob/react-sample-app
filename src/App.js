@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import App4 from './App4'
 
 let list = []
 let num = 0
@@ -23,6 +24,9 @@ function App() {
       <Switch>
         <Route path="/a3">
           <App3 />
+        </Route>
+        <Route path="/a4">
+          <App4 />
         </Route>
         <Route path="/">
           <App2 />
