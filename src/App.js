@@ -20,11 +20,20 @@ const randomTask = [
 function App() {
   return (
     <Router>
-      <Route path="/">
-        <App2 />
-      </Route>
+      <Switch>
+        <Route path="/a3">
+          <App3 />
+        </Route>
+        <Route path="/">
+          <App2 />
+        </Route>
+      </Switch>
     </Router>
   )
+}
+
+function App3() {
+  return <div>App3</div>
 }
 
 function App2() {
