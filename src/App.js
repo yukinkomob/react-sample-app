@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 
 let list = []
 let num = 0
@@ -17,6 +18,16 @@ const randomTask = [
 ]
 
 function App() {
+  return (
+    <Router>
+      <Route path="/">
+        <App2 />
+      </Route>
+    </Router>
+  )
+}
+
+function App2() {
   const [item, setItem] = useState({
     id: -1,
     text: '',
