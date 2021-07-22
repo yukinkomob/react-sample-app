@@ -1,0 +1,10 @@
+{
+  "window.zoomLevel": -1,
+  "explorer.confirmDragAndDrop": false,
+  "editor.tabSize": 2,
+  "editor.renderWhitespace": "all",
+  "editor.comments.ignoreEmptyLines": false,
+  "extensions.ignoreRecommendations": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true
+}
