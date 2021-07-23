@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
-import App4 from './App4'
-import App5 from './App5'
 import toast, { Toaster } from 'react-hot-toast'
 
 let list = []
@@ -24,25 +22,12 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/a3">
-          <App3 />
-        </Route>
-        <Route path="/a4">
-          <App4 />
-        </Route>
-        <Route path="/a5">
-          <App5 />
-        </Route>
         <Route path="/">
           <App2 />
         </Route>
       </Switch>
     </Router>
   )
-}
-
-function App3() {
-  return <div>App3</div>
 }
 
 function App2() {
