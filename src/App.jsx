@@ -1,7 +1,7 @@
 import React, { createContext } from 'react'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import Main from './pages/Main'
-import Temp from './pages/Temp'
+import Detail from './pages/Detail'
 
 export const GoToFuncs = createContext()
 
@@ -10,7 +10,7 @@ function App() {
     <Router>
       <Switch>
         <Route path="/temp/:id">
-          <Temp />
+          <Detail />
         </Route>
         <Route path="/">
           <Main />
