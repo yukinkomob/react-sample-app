@@ -45,7 +45,9 @@ function App2() {
     setList([...list])
   }
 
-  const goToDetail = () => {
+  const goToDetail = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
     console.log('gotodetail')
   }
 
