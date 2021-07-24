@@ -44,13 +44,6 @@ function App2() {
     setList([...list])
   }
 
-  const deleteItem = (e) => {
-    e.preventDefault()
-    e.stopPropagation()
-    const id = e.target.id
-    setList(list.filter((item) => item.id != id))
-  }
-
   const removeAllFocus = () => {
     list.forEach((item) => (item.isFocus = false))
   }
@@ -88,16 +81,16 @@ function App2() {
           <h2 className="text-2xl m-2 p-2 text-blue-800">未完了</h2>
           <TaskList
             list={list}
+            setList={setList}
             changeIsCompleted={changeIsCompleted}
-            deleteItem={deleteItem}
             setFocus={setFocus}
             type={{ isComplete: false }}
           />
           <h2 className="text-2xl m-2 p-2 text-blue-800">完了</h2>
           <TaskList
             list={list}
+            setList={setList}
             changeIsCompleted={changeIsCompleted}
-            deleteItem={deleteItem}
             setFocus={setFocus}
             type={{ isComplete: true }}
           />

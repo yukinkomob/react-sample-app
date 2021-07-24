@@ -2,6 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const TaskList = (props) => {
+  const deleteItem = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    const id = e.target.id
+    props.setList(props.list.filter((item) => item.id != id))
+  }
+
   return (
     <ul className="m-4 text-center">
       {props.list
@@ -27,7 +34,7 @@ const TaskList = (props) => {
               >
                 {props.type.isComplete ? '✅' : '🔲'}
               </button>
-              <button id={item.id} className="mx-2" onClick={props.deleteItem}>
+              <button id={item.id} className="mx-2" onClick={deleteItem}>
                 ✖
               </button>
             </div>
@@ -39,8 +46,8 @@ const TaskList = (props) => {
 
 TaskList.propTypes = {
   list: PropTypes.object,
+  setList: PropTypes.func,
   changeIsCompleted: PropTypes.func,
-  deleteItem: PropTypes.func,
   setFocus: PropTypes.func,
   type: PropTypes.object,
 }
