@@ -4,21 +4,6 @@ import Header from './components/Header'
 import TaskInputForm from './components/TaskInputForm'
 import TaskList from './components/TaskList'
 
-let num = 0
-let focusInfo = { id: -1, isFocus: false }
-
-const randomTask = [
-  '掃除をする',
-  '歯を磨く',
-  '整理整頓をする',
-  '日記を書く',
-  'ごみをまとめる',
-  '食事をする',
-  '課題をやる',
-  '学習をする',
-  '家計簿をつける',
-]
-
 function App() {
   return (
     <Router>
@@ -32,6 +17,8 @@ function App() {
 }
 
 function App2() {
+  const [num, setNum] = useState(0)
+
   const [list, setList] = useState([])
 
   const [inputItem, setInputItem] = useState({
@@ -47,36 +34,6 @@ function App2() {
   }
 
   const [focusInfo, setFocusInfo] = useState(NullFocusInfo)
-
-  const handleChange = (e) => {
-    setInputItem({ ...inputItem, text: e.target.value })
-  }
-
-  const getRandomTask = () => {
-    const index = Math.floor(Math.random() * randomTask.length)
-    return randomTask[index]
-  }
-
-  const registerItem = (e) => {
-    e.preventDefault()
-    let newInputItem = { ...inputItem }
-    if (newInputItem.text === '') {
-      newInputItem.text = getRandomTask()
-    }
-    newInputItem.id = num++
-    setInputItem(newInputItem)
-    list.push(newInputItem)
-    setInputItem({ ...inputItem, text: '' })
-  }
-
-  const editItem = (e) => {
-    e.preventDefault()
-    let currentItem = list.find((item) => item.id == focusInfo.id)
-    currentItem.text = inputItem.text
-    currentItem.isFocus = false
-    setFocusInfo(NullFocusInfo)
-    setInputItem({ ...inputItem, text: '' })
-  }
 
   const changeIsCompleted = (e) => {
     e.preventDefault()
@@ -118,10 +75,13 @@ function App2() {
           <Header name={name} />
           <TaskInputForm
             focusInfo={focusInfo}
-            item={inputItem}
-            handleChange={handleChange}
-            editItem={editItem}
-            registerItem={registerItem}
+            setFocusInfo={setFocusInfo}
+            inputItem={inputItem}
+            setInputItem={setInputItem}
+            num={num}
+            setNum={setNum}
+            list={list}
+            nullFocusInfo={NullFocusInfo}
           />
         </div>
         <div>
