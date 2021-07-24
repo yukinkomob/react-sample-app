@@ -24,7 +24,11 @@ const TaskItem = (props) => {
     >
       <div className="flex justify-evenly">
         <span className="text-center w-3/4">{item.text}</span>
-        <button id={item.id} className="mx-2" onClick={goToDetail}>
+        <button
+          id={item.id}
+          className="mx-2"
+          onClick={(e) => goToDetail(e, item.id)}
+        >
           📒
         </button>
         <button id={item.id} className="mx-2" onClick={changeIsCompleted}>

@@ -1,10 +1,13 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 
-const Temp = () => (
-  <div>
-    temp message <Link to="/">link</Link>
-  </div>
-)
+const Temp = () => {
+  const { id } = useParams()
 
+  return (
+    <div>
+      temp message <Link to="/">link-{id}</Link>
+    </div>
+  )
+}
 export default Temp

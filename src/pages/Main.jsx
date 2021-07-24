@@ -33,11 +33,11 @@ const Main = () => {
     setList([...list])
   }
 
-  const goToDetail = (e) => {
+  const goToDetail = (e, id) => {
     e.preventDefault()
     e.stopPropagation()
-    console.log('gotodetail')
-    history.push('/temp')
+    console.log('gotodetail' + id)
+    history.push(`/temp/${id}`)
   }
 
   return (
