@@ -107,8 +107,6 @@ function App2() {
     setDummy(newDummy)
   }
 
-  const name = 'test'
-
   return (
     <div className="App">
       <div>
