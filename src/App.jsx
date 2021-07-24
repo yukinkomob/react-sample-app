@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, createContext } from 'react'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import Header from './components/Header'
 import TaskInputForm from './components/TaskInputForm'
 import TaskList from './components/TaskList'
+
+export const GoToFuncs = createContext()
 
 function App() {
   return (
@@ -43,6 +45,10 @@ function App2() {
     setList([...list])
   }
 
+  const goToDetail = () => {
+    console.log('gotodetail')
+  }
+
   return (
     <div className="App">
       <div>
@@ -60,30 +66,32 @@ function App2() {
           />
         </div>
         <div>
-          <h2 className="text-2xl m-2 p-2 text-blue-800">未完了</h2>
-          <TaskList
-            list={list}
-            setList={setList}
-            inputItem={inputItem}
-            setInputItem={setInputItem}
-            changeIsCompleted={changeIsCompleted}
-            type={{ isComplete: false }}
-            focusInfo={focusInfo}
-            setFocusInfo={setFocusInfo}
-            nullFocusInfo={NullFocusInfo}
-          />
-          <h2 className="text-2xl m-2 p-2 text-blue-800">完了</h2>
-          <TaskList
-            list={list}
-            setList={setList}
-            inputItem={inputItem}
-            setInputItem={setInputItem}
-            changeIsCompleted={changeIsCompleted}
-            type={{ isComplete: true }}
-            focusInfo={focusInfo}
-            setFocusInfo={setFocusInfo}
-            nullFocusInfo={NullFocusInfo}
-          />
+          <GoToFuncs.Provider value={goToDetail}>
+            <h2 className="text-2xl m-2 p-2 text-blue-800">未完了</h2>
+            <TaskList
+              list={list}
+              setList={setList}
+              inputItem={inputItem}
+              setInputItem={setInputItem}
+              changeIsCompleted={changeIsCompleted}
+              type={{ isComplete: false }}
+              focusInfo={focusInfo}
+              setFocusInfo={setFocusInfo}
+              nullFocusInfo={NullFocusInfo}
+            />
+            <h2 className="text-2xl m-2 p-2 text-blue-800">完了</h2>
+            <TaskList
+              list={list}
+              setList={setList}
+              inputItem={inputItem}
+              setInputItem={setInputItem}
+              changeIsCompleted={changeIsCompleted}
+              type={{ isComplete: true }}
+              focusInfo={focusInfo}
+              setFocusInfo={setFocusInfo}
+              nullFocusInfo={NullFocusInfo}
+            />
+          </GoToFuncs.Provider>
         </div>
       </div>
     </div>

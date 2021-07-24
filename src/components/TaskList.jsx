@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
+import TaskItem from './TaskItem'
 
 const TaskList = (props) => {
   const deleteItem = (e) => {
@@ -41,31 +42,14 @@ const TaskList = (props) => {
       {props.list
         .filter((item) => item.isComplete === props.type.isComplete)
         .map((item) => (
-          <li
-            onClick={() => {
-              setFocus(item.id)
-            }}
+          <TaskItem
             key={item.id}
-            className={
-              item.isFocus
-                ? 'w-1/2 p-2 mr-2 inline-block border border-blue-300'
-                : 'w-1/2 p-2 mr-2 inline-block border'
-            }
-          >
-            <div className="flex justify-evenly">
-              <span className="text-center w-3/4">{item.text}</span>
-              <button
-                id={item.id}
-                className="mx-2"
-                onClick={props.changeIsCompleted}
-              >
-                {props.type.isComplete ? '✅' : '🔲'}
-              </button>
-              <button id={item.id} className="mx-2" onClick={deleteItem}>
-                ✖
-              </button>
-            </div>
-          </li>
+            item={item}
+            setFocus={setFocus}
+            type={props.type}
+            changeIsCompleted={props.changeIsCompleted}
+            deleteItem={deleteItem}
+          />
         ))}
     </ul>
   )
