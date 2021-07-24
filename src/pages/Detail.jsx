@@ -1,7 +1,7 @@
 import React from 'react'
 import { useParams, Link } from 'react-router-dom'
 
-const Temp = () => {
+const Detail = () => {
   const { id } = useParams()
 
   return (
@@ -10,4 +10,4 @@ const Temp = () => {
     </div>
   )
 }
-export default Temp
+export default Detail
