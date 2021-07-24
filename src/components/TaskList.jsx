@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 
 const TaskList = (props) => {
@@ -13,19 +13,27 @@ const TaskList = (props) => {
     props.list.forEach((item) => (item.isFocus = false))
   }
 
+  useEffect(() => {
+    const updateInputItem = () => {
+      if (props.focusInfo.isFocus) {
+        const item = props.list.find((item) => item.id === props.focusInfo.id)
+        props.setInputItem({ ...props.inputItem, text: item.text })
+      } else {
+        props.setInputItem({ ...props.inputItem, text: '' })
+      }
+    }
+    updateInputItem()
+  }, [props.focusInfo])
+
   const setFocus = (id) => {
     const item = props.list.find((item) => item.id === id)
-    const focusState = item.isFocus
+    const isFocusBefore = item.isFocus
     removeAllFocus()
-    item.isFocus = !focusState
+    item.isFocus = !isFocusBefore
+
     props.setFocusInfo(
       item.isFocus ? { id: item.id, isFocus: true } : props.nullFocusInfo
     )
-    if (props.focusInfo.isFocus) {
-      props.setInputItem({ ...props.inputItem, text: item.text })
-    } else {
-      props.setInputItem({ ...props.inputItem, text: '' })
-    }
   }
 
   return (
@@ -64,12 +72,11 @@ const TaskList = (props) => {
 }
 
 TaskList.propTypes = {
-  list: PropTypes.object,
+  list: PropTypes.array,
   setList: PropTypes.func,
   inputItem: PropTypes.object,
   setInputItem: PropTypes.func,
   changeIsCompleted: PropTypes.func,
-  setFocus: PropTypes.func,
   type: PropTypes.object,
   focusInfo: PropTypes.object,
   setFocusInfo: PropTypes.func,
