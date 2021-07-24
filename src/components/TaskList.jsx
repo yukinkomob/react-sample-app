@@ -3,51 +3,59 @@ import PropTypes from 'prop-types'
 import TaskItem from './TaskItem'
 
 const TaskList = (props) => {
+  const list = props.list
+  const setList = props.setList
+  const inputItem = props.inputItem
+  const setInputItem = props.setInputItem
+  const changeIsCompleted = props.changeIsCompleted
+  const type = props.type
+  const focusInfo = props.focusInfo
+  const setFocusInfo = props.setFocusInfo
+  const nullFocusInfo = props.nullFocusInfo
+
   const deleteItem = (e) => {
     e.preventDefault()
     e.stopPropagation()
     const id = e.target.id
-    props.setList(props.list.filter((item) => item.id != id))
+    setList(list.filter((item) => item.id != id))
   }
 
   const removeAllFocus = () => {
-    props.list.forEach((item) => (item.isFocus = false))
+    list.forEach((item) => (item.isFocus = false))
   }
 
   const setFocus = (id) => {
-    const item = props.list.find((item) => item.id === id)
+    const item = list.find((item) => item.id === id)
     const isFocusBefore = item.isFocus
     removeAllFocus()
     item.isFocus = !isFocusBefore
 
-    props.setFocusInfo(
-      item.isFocus ? { id: item.id, isFocus: true } : props.nullFocusInfo
-    )
+    setFocusInfo(item.isFocus ? { id: item.id, isFocus: true } : nullFocusInfo)
   }
 
   useEffect(() => {
     const updateInputItem = () => {
-      if (props.focusInfo.isFocus) {
-        const item = props.list.find((item) => item.id === props.focusInfo.id)
-        props.setInputItem({ ...props.inputItem, text: item.text })
+      if (focusInfo.isFocus) {
+        const item = list.find((item) => item.id === focusInfo.id)
+        setInputItem({ ...inputItem, text: item.text })
       } else {
-        props.setInputItem({ ...props.inputItem, text: '' })
+        setInputItem({ ...inputItem, text: '' })
       }
     }
     updateInputItem()
-  }, [props.focusInfo])
+  }, [focusInfo])
 
   return (
     <ul className="m-4 text-center">
-      {props.list
-        .filter((item) => item.isComplete === props.type.isComplete)
+      {list
+        .filter((item) => item.isComplete === type.isComplete)
         .map((item) => (
           <TaskItem
             key={item.id}
             item={item}
             setFocus={setFocus}
-            type={props.type}
-            changeIsCompleted={props.changeIsCompleted}
+            type={type}
+            changeIsCompleted={changeIsCompleted}
             deleteItem={deleteItem}
           />
         ))}

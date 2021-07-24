@@ -2,30 +2,39 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const TaskInputForm = (props) => {
+  const inputItem = props.inputItem
+  const setInputItem = props.setInputItem
+  const focusInfo = props.focusInfo
+  const setFocusInfo = props.setFocusInfo
+  const nullFocusInfo = props.nullFocusInfo
+  const num = props.num
+  const setNum = props.setNum
+  const list = props.list
+
   const handleChange = (e) => {
-    props.setInputItem({ ...props.inputItem, text: e.target.value })
+    setInputItem({ ...inputItem, text: e.target.value })
   }
 
   const registerItem = (e) => {
     e.preventDefault()
-    let newInputItem = { ...props.inputItem }
+    let newInputItem = { ...inputItem }
     if (newInputItem.text === '') {
       newInputItem.text = getRandomTask()
     }
-    props.setNum(props.num + 1)
-    newInputItem.id = props.num
-    props.setInputItem(newInputItem)
-    props.list.push(newInputItem)
-    props.setInputItem({ ...props.inputItem, text: '' })
+    setNum(num + 1)
+    newInputItem.id = num
+    setInputItem(newInputItem)
+    list.push(newInputItem)
+    setInputItem({ ...inputItem, text: '' })
   }
 
   const editItem = (e) => {
     e.preventDefault()
-    let currentItem = props.list.find((item) => item.id == props.focusInfo.id)
-    currentItem.text = props.inputItem.text
+    let currentItem = list.find((item) => item.id == focusInfo.id)
+    currentItem.text = inputItem.text
     currentItem.isFocus = false
-    props.setFocusInfo(props.nullFocusInfo)
-    props.setInputItem({ ...props.inputItem, text: '' })
+    setFocusInfo(nullFocusInfo)
+    setInputItem({ ...inputItem, text: '' })
   }
 
   const randomTask = [
@@ -49,9 +58,9 @@ const TaskInputForm = (props) => {
     <form>
       <input
         onChange={handleChange}
-        value={props.inputItem.text}
+        value={inputItem.text}
         className={
-          props.focusInfo.isFocus
+          focusInfo.isFocus
             ? 'm-2 p-2 border border-green-500 w-80'
             : 'm-2 p-2 border border-blue-500 w-80'
         }
@@ -59,10 +68,10 @@ const TaskInputForm = (props) => {
         placeholder="例：買い物に行く"
       />
       <button
-        onClick={props.focusInfo.isFocus ? editItem : registerItem}
+        onClick={focusInfo.isFocus ? editItem : registerItem}
         className="bg-blue-200 py-2 px-4 text-blue-500"
       >
-        {props.focusInfo.isFocus ? 'Save' : '✙'}
+        {focusInfo.isFocus ? 'Save' : '✙'}
       </button>
     </form>
   )

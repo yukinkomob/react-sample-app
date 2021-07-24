@@ -4,6 +4,7 @@ import { GoToFuncs } from '../App'
 
 const TaskItem = (props) => {
   const item = props.item
+  const key = props.key
   const type = props.type
   const changeIsCompleted = props.changeIsCompleted
   const deleteItem = props.deleteItem
@@ -16,7 +17,7 @@ const TaskItem = (props) => {
       onClick={() => {
         setFocus(item.id)
       }}
-      key={props.key}
+      key={key}
       className={
         item.isFocus
           ? 'w-1/2 p-2 mr-2 inline-block border border-blue-300'
