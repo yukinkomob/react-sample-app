@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import Header from './components/Header'
 
 let list = []
 let num = 0
@@ -108,9 +109,7 @@ function App2() {
     <div className="App">
       <div>
         <div className="text-center">
-          <h1 className="text-center text-3xl p-3 text-white bg-blue-800">
-            ToDoアプリ
-          </h1>
+          <Header />
           <form>
             <input
               onChange={handleChange}
