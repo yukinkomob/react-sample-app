@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
-import { GoToFuncs } from '../App'
+import { GoToFuncs } from '../pages/Main'
 
 const TaskItem = (props) => {
   const item = props.item
