@@ -34,15 +34,22 @@ function App() {
 function App2() {
   const [list, setList] = useState([])
 
-  const [item, setItem] = useState({
+  const [inputItem, setInputItem] = useState({
     id: -1,
     text: '',
     isComplete: false,
     isFocus: false,
   })
 
+  const NullFocusInfo = {
+    id: -1,
+    isFocus: false,
+  }
+
+  const [focusInfo, setFocusInfo] = useState(NullFocusInfo)
+
   const handleChange = (e) => {
-    setItem({ ...item, text: e.target.value })
+    setInputItem({ ...inputItem, text: e.target.value })
   }
 
   const getRandomTask = () => {
@@ -52,23 +59,23 @@ function App2() {
 
   const registerItem = (e) => {
     e.preventDefault()
-    let newItem = { ...item }
-    if (newItem.text === '') {
-      newItem.text = getRandomTask()
+    let newInputItem = { ...inputItem }
+    if (newInputItem.text === '') {
+      newInputItem.text = getRandomTask()
     }
-    newItem.id = num++
-    setItem(newItem)
-    list.push(newItem)
-    setItem({ ...item, text: '' })
+    newInputItem.id = num++
+    setInputItem(newInputItem)
+    list.push(newInputItem)
+    setInputItem({ ...inputItem, text: '' })
   }
 
   const editItem = (e) => {
     e.preventDefault()
     let currentItem = list.find((item) => item.id == focusInfo.id)
-    currentItem.text = item.text
+    currentItem.text = inputItem.text
     currentItem.isFocus = false
-    focusInfo = { id: -1, isFocus: false }
-    setItem({ ...item, text: '' })
+    setFocusInfo(NullFocusInfo)
+    setInputItem({ ...inputItem, text: '' })
   }
 
   const changeIsCompleted = (e) => {
@@ -87,18 +94,20 @@ function App2() {
     setList(list.filter((item) => item.id != id))
   }
 
-  const setFocus = (id) => {
-    const targetItem = list.find((item) => item.id === id)
-    const currentFocusState = targetItem.isFocus
+  const removeAllFocus = () => {
     list.forEach((item) => (item.isFocus = false))
-    targetItem.isFocus = !currentFocusState
-    focusInfo = targetItem.isFocus
-      ? { id: targetItem.id, isFocus: true }
-      : { id: -1, isFocus: false }
+  }
+
+  const setFocus = (id) => {
+    const item = list.find((item) => item.id === id)
+    const focusState = item.isFocus
+    removeAllFocus()
+    item.isFocus = !focusState
+    setFocusInfo(item.isFocus ? { id: item.id, isFocus: true } : NullFocusInfo)
     if (focusInfo.isFocus) {
-      setItem({ ...item, text: targetItem.text })
+      setInputItem({ ...inputItem, text: item.text })
     } else {
-      setItem({ ...item, text: '' })
+      setInputItem({ ...inputItem, text: '' })
     }
   }
 
@@ -109,7 +118,7 @@ function App2() {
           <Header name={name} />
           <TaskInputForm
             focusInfo={focusInfo}
-            item={item}
+            item={inputItem}
             handleChange={handleChange}
             editItem={editItem}
             registerItem={registerItem}
