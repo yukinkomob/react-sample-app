@@ -47,7 +47,7 @@ function App2() {
     <div className="App">
       <div>
         <div className="text-center">
-          <Header name={name} />
+          <Header title={'ToDoアプリ'} />
           <TaskInputForm
             focusInfo={focusInfo}
             setFocusInfo={setFocusInfo}
