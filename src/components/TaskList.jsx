@@ -13,6 +13,17 @@ const TaskList = (props) => {
     props.list.forEach((item) => (item.isFocus = false))
   }
 
+  const setFocus = (id) => {
+    const item = props.list.find((item) => item.id === id)
+    const isFocusBefore = item.isFocus
+    removeAllFocus()
+    item.isFocus = !isFocusBefore
+
+    props.setFocusInfo(
+      item.isFocus ? { id: item.id, isFocus: true } : props.nullFocusInfo
+    )
+  }
+
   useEffect(() => {
     const updateInputItem = () => {
       if (props.focusInfo.isFocus) {
@@ -24,17 +35,6 @@ const TaskList = (props) => {
     }
     updateInputItem()
   }, [props.focusInfo])
-
-  const setFocus = (id) => {
-    const item = props.list.find((item) => item.id === id)
-    const isFocusBefore = item.isFocus
-    removeAllFocus()
-    item.isFocus = !isFocusBefore
-
-    props.setFocusInfo(
-      item.isFocus ? { id: item.id, isFocus: true } : props.nullFocusInfo
-    )
-  }
 
   return (
     <ul className="m-4 text-center">
