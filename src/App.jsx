@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import Header from './components/Header'
 import TaskInputForm from './components/TaskInputForm'
+import TaskList from './components/TaskList'
 
 let list = []
 let num = 0
@@ -113,98 +114,31 @@ function App2() {
       <div>
         <div className="text-center">
           <Header name={name} />
-          {/* <TaskInputForm
+          <TaskInputForm
             focusInfo={focusInfo}
             item={item}
             handleChange={handleChange}
             editItem={editItem}
             registerItem={registerItem}
-          /> */}
-          {/* <form>
-            <input
-              onChange={handleChange}
-              value={item.text}
-              className={
-                focusInfo.isFocus
-                  ? 'm-2 p-2 border border-green-500 w-80'
-                  : 'm-2 p-2 border border-blue-500 w-80'
-              }
-              type="text"
-              placeholder="例：買い物に行く"
-            />
-            <button
-              onClick={focusInfo.isFocus ? editItem : registerItem}
-              className="bg-blue-200 py-2 px-4 text-blue-500"
-            >
-              {focusInfo.isFocus ? 'Save' : '✙'}
-            </button>
-          </form> */}
+          />
         </div>
         <div>
           <h2 className="text-2xl m-2 p-2 text-blue-800">未完了</h2>
-          <ul className="m-4 text-center">
-            {list
-              .filter((item) => item.isComplete === false)
-              .map((item) => (
-                <li
-                  onClick={() => {
-                    setFocus(item.id)
-                  }}
-                  key={item.id}
-                  className={
-                    item.isFocus
-                      ? 'w-1/2 p-2 mr-2 inline-block border border-blue-300'
-                      : 'w-1/2 p-2 mr-2 inline-block border'
-                  }
-                >
-                  <div className="flex justify-evenly">
-                    <span className="text-center w-3/4">{item.text}</span>
-                    <button
-                      id={item.id}
-                      className="mx-2"
-                      onClick={changeIsCompleted}
-                    >
-                      🔲
-                    </button>
-                    <button id={item.id} className="mx-2" onClick={deleteItem}>
-                      ✖
-                    </button>
-                  </div>
-                </li>
-              ))}
-          </ul>
+          <TaskList
+            list={list}
+            changeIsCompleted={changeIsCompleted}
+            deleteItem={deleteItem}
+            setFocus={setFocus}
+            type={{ isComplete: false }}
+          />
           <h2 className="text-2xl m-2 p-2 text-blue-800">完了</h2>
-          <ul className="m-4 text-center">
-            {list
-              .filter((item) => item.isComplete === true)
-              .map((item) => (
-                <li
-                  onClick={() => {
-                    setFocus(item.id)
-                  }}
-                  key={item.id}
-                  className={
-                    item.isFocus
-                      ? 'w-1/2 p-2 mr-2 inline-block border border-blue-300'
-                      : 'w-1/2 p-2 mr-2 inline-block border'
-                  }
-                >
-                  <div className="flex justify-evenly">
-                    <span className="text-center w-3/4">{item.text}</span>
-                    <button
-                      id={item.id}
-                      className="mx-2"
-                      onClick={changeIsCompleted}
-                    >
-                      ✅
-                    </button>
-                    <button id={item.id} className="mx-2" onClick={deleteItem}>
-                      ✖
-                    </button>
-                  </div>
-                </li>
-              ))}
-          </ul>
+          <TaskList
+            list={list}
+            changeIsCompleted={changeIsCompleted}
+            deleteItem={deleteItem}
+            setFocus={setFocus}
+            type={{ isComplete: true }}
+          />
         </div>
       </div>
     </div>
