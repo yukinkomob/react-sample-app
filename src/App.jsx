@@ -4,7 +4,6 @@ import Header from './components/Header'
 import TaskInputForm from './components/TaskInputForm'
 import TaskList from './components/TaskList'
 
-let list = []
 let num = 0
 let focusInfo = { id: -1, isFocus: false }
 
@@ -33,13 +32,14 @@ function App() {
 }
 
 function App2() {
+  const [list, setList] = useState([])
+
   const [item, setItem] = useState({
     id: -1,
     text: '',
     isComplete: false,
     isFocus: false,
   })
-  const [dummy, setDummy] = useState({ text: '', isComplete: false })
 
   const handleChange = (e) => {
     setItem({ ...item, text: e.target.value })
@@ -77,17 +77,14 @@ function App2() {
     const id = e.target.id
     const item = list.find((item) => item.id == id)
     item.isComplete = !item.isComplete
-    let newDummy = { ...dummy }
-    setDummy(newDummy)
+    setList([...list])
   }
 
   const deleteItem = (e) => {
     e.preventDefault()
     e.stopPropagation()
     const id = e.target.id
-    list = list.filter((item) => item.id != id)
-    let newDummy = { ...dummy }
-    setDummy(newDummy)
+    setList(list.filter((item) => item.id != id))
   }
 
   const setFocus = (id) => {
@@ -103,8 +100,6 @@ function App2() {
     } else {
       setItem({ ...item, text: '' })
     }
-    let newDummy = { ...dummy }
-    setDummy(newDummy)
   }
 
   return (
