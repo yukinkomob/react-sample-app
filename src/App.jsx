@@ -38,27 +38,9 @@ function App2() {
   const changeIsCompleted = (e) => {
     e.preventDefault()
     e.stopPropagation()
-    const id = e.target.id
-    const item = list.find((item) => item.id == id)
+    const item = list.find((item) => item.id == e.target.id)
     item.isComplete = !item.isComplete
     setList([...list])
-  }
-
-  const removeAllFocus = () => {
-    list.forEach((item) => (item.isFocus = false))
-  }
-
-  const setFocus = (id) => {
-    const item = list.find((item) => item.id === id)
-    const focusState = item.isFocus
-    removeAllFocus()
-    item.isFocus = !focusState
-    setFocusInfo(item.isFocus ? { id: item.id, isFocus: true } : NullFocusInfo)
-    if (focusInfo.isFocus) {
-      setInputItem({ ...inputItem, text: item.text })
-    } else {
-      setInputItem({ ...inputItem, text: '' })
-    }
   }
 
   return (
@@ -69,12 +51,12 @@ function App2() {
           <TaskInputForm
             focusInfo={focusInfo}
             setFocusInfo={setFocusInfo}
+            nullFocusInfo={NullFocusInfo}
             inputItem={inputItem}
             setInputItem={setInputItem}
             num={num}
             setNum={setNum}
             list={list}
-            nullFocusInfo={NullFocusInfo}
           />
         </div>
         <div>
@@ -82,17 +64,25 @@ function App2() {
           <TaskList
             list={list}
             setList={setList}
+            inputItem={inputItem}
+            setInputItem={setInputItem}
             changeIsCompleted={changeIsCompleted}
-            setFocus={setFocus}
             type={{ isComplete: false }}
+            focusInfo={focusInfo}
+            setFocusInfo={setFocusInfo}
+            nullFocusInfo={NullFocusInfo}
           />
           <h2 className="text-2xl m-2 p-2 text-blue-800">完了</h2>
           <TaskList
             list={list}
             setList={setList}
+            inputItem={inputItem}
+            setInputItem={setInputItem}
             changeIsCompleted={changeIsCompleted}
-            setFocus={setFocus}
             type={{ isComplete: true }}
+            focusInfo={focusInfo}
+            setFocusInfo={setFocusInfo}
+            nullFocusInfo={NullFocusInfo}
           />
         </div>
       </div>

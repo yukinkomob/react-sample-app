@@ -73,10 +73,10 @@ TaskInputForm.propTypes = {
   setInputItem: PropTypes.func,
   focusInfo: PropTypes.object,
   setFocusInfo: PropTypes.func,
+  nullFocusInfo: PropTypes.object,
   num: PropTypes.number,
   setNum: PropTypes.func,
   list: PropTypes.object,
-  nullFocusInfo: PropTypes.object,
 }
 
 export default TaskInputForm

@@ -9,6 +9,25 @@ const TaskList = (props) => {
     props.setList(props.list.filter((item) => item.id != id))
   }
 
+  const removeAllFocus = () => {
+    props.list.forEach((item) => (item.isFocus = false))
+  }
+
+  const setFocus = (id) => {
+    const item = props.list.find((item) => item.id === id)
+    const focusState = item.isFocus
+    removeAllFocus()
+    item.isFocus = !focusState
+    props.setFocusInfo(
+      item.isFocus ? { id: item.id, isFocus: true } : props.nullFocusInfo
+    )
+    if (props.focusInfo.isFocus) {
+      props.setInputItem({ ...props.inputItem, text: item.text })
+    } else {
+      props.setInputItem({ ...props.inputItem, text: '' })
+    }
+  }
+
   return (
     <ul className="m-4 text-center">
       {props.list
@@ -16,7 +35,7 @@ const TaskList = (props) => {
         .map((item) => (
           <li
             onClick={() => {
-              props.setFocus(item.id)
+              setFocus(item.id)
             }}
             key={item.id}
             className={
@@ -47,9 +66,14 @@ const TaskList = (props) => {
 TaskList.propTypes = {
   list: PropTypes.object,
   setList: PropTypes.func,
+  inputItem: PropTypes.object,
+  setInputItem: PropTypes.func,
   changeIsCompleted: PropTypes.func,
   setFocus: PropTypes.func,
   type: PropTypes.object,
+  focusInfo: PropTypes.object,
+  setFocusInfo: PropTypes.func,
+  nullFocusInfo: PropTypes.object,
 }
 
 export default TaskList
