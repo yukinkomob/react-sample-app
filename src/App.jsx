@@ -104,10 +104,6 @@ function App2() {
     setDummy(newDummy)
   }
 
-  const showToast = () => {
-    toast('Hello World')
-  }
-
   return (
     <div className="App">
       <div>
