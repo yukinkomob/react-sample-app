@@ -1,8 +1,10 @@
 import React, { useState, createContext } from 'react'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import Header from './components/Header'
 import TaskInputForm from './components/TaskInputForm'
 import TaskList from './components/TaskList'
+import Temp from './Temp'
 
 export const GoToFuncs = createContext()
 
@@ -10,6 +12,9 @@ function App() {
   return (
     <Router>
       <Switch>
+        <Route path="/temp">
+          <Temp />
+        </Route>
         <Route path="/">
           <App2 />
         </Route>
@@ -20,15 +25,15 @@ function App() {
 
 function App2() {
   const [num, setNum] = useState(0)
-
   const [list, setList] = useState([])
-
   const [inputItem, setInputItem] = useState({
     id: -1,
     text: '',
     isComplete: false,
     isFocus: false,
   })
+
+  const history = useHistory()
 
   const NullFocusInfo = {
     id: -1,
@@ -49,6 +54,7 @@ function App2() {
     e.preventDefault()
     e.stopPropagation()
     console.log('gotodetail')
+    history.push('/temp')
   }
 
   return (
