@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import Header from './components/Header'
+import TaskInputForm from './components/TaskInputForm'
 
 let list = []
 let num = 0
@@ -105,12 +106,21 @@ function App2() {
     setDummy(newDummy)
   }
 
+  const name = 'test'
+
   return (
     <div className="App">
       <div>
         <div className="text-center">
-          <Header />
-          <form>
+          <Header name={name} />
+          {/* <TaskInputForm
+            focusInfo={focusInfo}
+            item={item}
+            handleChange={handleChange}
+            editItem={editItem}
+            registerItem={registerItem}
+          /> */}
+          {/* <form>
             <input
               onChange={handleChange}
               value={item.text}
@@ -128,7 +138,7 @@ function App2() {
             >
               {focusInfo.isFocus ? 'Save' : '✙'}
             </button>
-          </form>
+          </form> */}
         </div>
         <div>
           <h2 className="text-2xl m-2 p-2 text-blue-800">未完了</h2>
