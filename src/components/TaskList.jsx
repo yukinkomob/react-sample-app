@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from 'react'
 import PropTypes from 'prop-types'
 import TaskItem from './TaskItem'
-import { LocalStorageFuncs } from '../pages/Main'
+import { LocalStorageFuncs, ToastFuncs } from '../pages/Main'
 
 const TaskList = (props) => {
   const list = props.list
@@ -15,13 +15,16 @@ const TaskList = (props) => {
   const nullFocusInfo = props.nullFocusInfo
 
   const toDoFuncs = useContext(LocalStorageFuncs)
+  const toastFuncs = useContext(ToastFuncs)
 
   const deleteItem = (e) => {
     e.preventDefault()
     e.stopPropagation()
     const id = e.target.id
+    const delItem = list.find((item) => item.id == id)
     setList(list.filter((item) => item.id != id))
     toDoFuncs.saveToDo(list)
+    toastFuncs.showToast('「' + delItem.text + '」を削除しました。', 'success')
   }
 
   const removeAllFocus = () => {

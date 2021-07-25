@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
-import { LocalStorageFuncs } from '../pages/Main'
+import { LocalStorageFuncs, ToastFuncs } from '../pages/Main'
 
 const TaskInputForm = (props) => {
   const inputItem = props.inputItem
@@ -13,6 +13,7 @@ const TaskInputForm = (props) => {
   const list = props.list
 
   const toDoFuncs = useContext(LocalStorageFuncs)
+  const toastFuncs = useContext(ToastFuncs)
 
   const handleChange = (e) => {
     setInputItem({ ...inputItem, text: e.target.value })
@@ -30,6 +31,10 @@ const TaskInputForm = (props) => {
     list.push(newInputItem)
     setInputItem({ ...inputItem, text: '' })
     toDoFuncs.saveToDo(list)
+    toastFuncs.showToast(
+      '「' + newInputItem.text + '」を追加しました。',
+      'success'
+    )
   }
 
   const editItem = (e) => {
@@ -40,6 +45,10 @@ const TaskInputForm = (props) => {
     setFocusInfo(nullFocusInfo)
     setInputItem({ ...inputItem, text: '' })
     toDoFuncs.saveToDo(list)
+    toastFuncs.showToast(
+      '「' + currentItem.text + '」に更新しました。',
+      'success'
+    )
   }
 
   const randomTask = [
