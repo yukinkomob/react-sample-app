@@ -1,9 +1,11 @@
-import React, { useState, createContext } from 'react'
+import React, { useState, createContext, useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import Header from '../components/Header'
 import TaskInputForm from '../components/TaskInputForm'
 import TaskList from '../components/TaskList'
 import toast, { Toaster } from 'react-hot-toast'
+import AlertDialog, { openModal, closeModal } from '../components/AlertDialog'
+import { DialogFuncs } from '../components/AlertDialog'
 
 export const GoToFuncs = createContext()
 export const LocalStorageFuncs = createContext()
@@ -49,7 +51,6 @@ const Main = () => {
   const goToDetail = (e, id) => {
     e.preventDefault()
     e.stopPropagation()
-    console.log('gotodetail' + id)
     history.push(`/temp/${id}`, { data: sampleData })
   }
 
@@ -101,58 +102,63 @@ const Main = () => {
 
   const toastFuncs = { showToast }
 
+  const dialogFuncs = { openModal }
+
   return (
     <div className="App">
-      <ToastFuncs.Provider value={toastFuncs}>
-        <div>
+      <DialogFuncs.Provider value={dialogFuncs}>
+        <ToastFuncs.Provider value={toastFuncs}>
           <div>
-            <Toaster />
-          </div>
-          <LocalStorageFuncs.Provider value={toDoFuncs}>
-            <div className="text-center">
-              <Header title={'ToDoアプリ'} />
-              <TaskInputForm
-                focusInfo={focusInfo}
-                setFocusInfo={setFocusInfo}
-                nullFocusInfo={NullFocusInfo}
-                inputItem={inputItem}
-                setInputItem={setInputItem}
-                num={num}
-                setNum={setNum}
-                list={list}
-              />
-            </div>
             <div>
-              <GoToFuncs.Provider value={goToDetail}>
-                <h2 className="text-2xl m-2 p-2 text-blue-800">未完了</h2>
-                <TaskList
-                  list={list}
-                  setList={setList}
-                  inputItem={inputItem}
-                  setInputItem={setInputItem}
-                  changeIsCompleted={changeIsCompleted}
-                  type={{ isComplete: false }}
-                  focusInfo={focusInfo}
-                  setFocusInfo={setFocusInfo}
-                  nullFocusInfo={NullFocusInfo}
-                />
-                <h2 className="text-2xl m-2 p-2 text-blue-800">完了</h2>
-                <TaskList
-                  list={list}
-                  setList={setList}
-                  inputItem={inputItem}
-                  setInputItem={setInputItem}
-                  changeIsCompleted={changeIsCompleted}
-                  type={{ isComplete: true }}
-                  focusInfo={focusInfo}
-                  setFocusInfo={setFocusInfo}
-                  nullFocusInfo={NullFocusInfo}
-                />
-              </GoToFuncs.Provider>
+              <Toaster />
             </div>
-          </LocalStorageFuncs.Provider>
-        </div>
-      </ToastFuncs.Provider>
+            <AlertDialog />
+            <LocalStorageFuncs.Provider value={toDoFuncs}>
+              <div className="text-center">
+                <Header title={'ToDoアプリ'} />
+                <TaskInputForm
+                  focusInfo={focusInfo}
+                  setFocusInfo={setFocusInfo}
+                  nullFocusInfo={NullFocusInfo}
+                  inputItem={inputItem}
+                  setInputItem={setInputItem}
+                  num={num}
+                  setNum={setNum}
+                  list={list}
+                />
+              </div>
+              <div>
+                <GoToFuncs.Provider value={goToDetail}>
+                  <h2 className="text-2xl m-2 p-2 text-blue-800">未完了</h2>
+                  <TaskList
+                    list={list}
+                    setList={setList}
+                    inputItem={inputItem}
+                    setInputItem={setInputItem}
+                    changeIsCompleted={changeIsCompleted}
+                    type={{ isComplete: false }}
+                    focusInfo={focusInfo}
+                    setFocusInfo={setFocusInfo}
+                    nullFocusInfo={NullFocusInfo}
+                  />
+                  <h2 className="text-2xl m-2 p-2 text-blue-800">完了</h2>
+                  <TaskList
+                    list={list}
+                    setList={setList}
+                    inputItem={inputItem}
+                    setInputItem={setInputItem}
+                    changeIsCompleted={changeIsCompleted}
+                    type={{ isComplete: true }}
+                    focusInfo={focusInfo}
+                    setFocusInfo={setFocusInfo}
+                    nullFocusInfo={NullFocusInfo}
+                  />
+                </GoToFuncs.Provider>
+              </div>
+            </LocalStorageFuncs.Provider>
+          </div>
+        </ToastFuncs.Provider>
+      </DialogFuncs.Provider>
     </div>
   )
 }
