@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 import PropTypes from 'prop-types'
 import TaskItem from './TaskItem'
+import { LocalStorageFuncs } from '../pages/Main'
 
 const TaskList = (props) => {
   const list = props.list
@@ -13,11 +14,14 @@ const TaskList = (props) => {
   const setFocusInfo = props.setFocusInfo
   const nullFocusInfo = props.nullFocusInfo
 
+  const toDoFuncs = useContext(LocalStorageFuncs)
+
   const deleteItem = (e) => {
     e.preventDefault()
     e.stopPropagation()
     const id = e.target.id
     setList(list.filter((item) => item.id != id))
+    toDoFuncs.saveToDo(list)
   }
 
   const removeAllFocus = () => {

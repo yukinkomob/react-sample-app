@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
+import { LocalStorageFuncs } from '../pages/Main'
 
 const TaskInputForm = (props) => {
   const inputItem = props.inputItem
@@ -10,6 +11,8 @@ const TaskInputForm = (props) => {
   const num = props.num
   const setNum = props.setNum
   const list = props.list
+
+  const toDoFuncs = useContext(LocalStorageFuncs)
 
   const handleChange = (e) => {
     setInputItem({ ...inputItem, text: e.target.value })
@@ -26,6 +29,7 @@ const TaskInputForm = (props) => {
     setInputItem(newInputItem)
     list.push(newInputItem)
     setInputItem({ ...inputItem, text: '' })
+    toDoFuncs.saveToDo(list)
   }
 
   const editItem = (e) => {
@@ -35,6 +39,7 @@ const TaskInputForm = (props) => {
     currentItem.isFocus = false
     setFocusInfo(nullFocusInfo)
     setInputItem({ ...inputItem, text: '' })
+    toDoFuncs.saveToDo(list)
   }
 
   const randomTask = [
