@@ -37,7 +37,7 @@ const Main = () => {
     e.preventDefault()
     e.stopPropagation()
     console.log('gotodetail' + id)
-    history.push(`/temp/${id}`)
+    history.push(`/temp/${id}`, { test: 'test123' })
   }
 
   return (
