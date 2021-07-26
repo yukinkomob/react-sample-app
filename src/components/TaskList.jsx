@@ -58,21 +58,53 @@ const getListStyle = (isDraggingOver) => ({
 
 const TaskList = (props) => {
   const list = props.list
-  //   const setList = props.setList
-  //   const inputItem = props.inputItem
-  //   const setInputItem = props.setInputItem
-  //   const changeIsCompleted = props.changeIsCompleted
+  const setList = props.setList
+  const inputItem = props.inputItem
+  const setInputItem = props.setInputItem
+  const changeIsCompleted = props.changeIsCompleted
   const type = props.type
-  //   const focusInfo = props.focusInfo
-  //   const setFocusInfo = props.setFocusInfo
-  //   const nullFocusInfo = props.nullFocusInfo
-  //
-  //   const toDoFuncs = useContext(LocalStorageFuncs)
-  //   const toastFuncs = useContext(ToastFuncs)
-  //   const dialogFuncs = useContext(DialogFuncs)
+  const focusInfo = props.focusInfo
+  const setFocusInfo = props.setFocusInfo
+  const nullFocusInfo = props.nullFocusInfo
 
+  const toDoFuncs = useContext(LocalStorageFuncs)
+  const toastFuncs = useContext(ToastFuncs)
+  const dialogFuncs = useContext(DialogFuncs)
+
+  const [state, setState] = useState([
+    [
+      {
+        id: '1',
+        content: 'item 0',
+        isComplete: false,
+        isFocus: false,
+        text: '掃除をする',
+      },
+      {
+        id: '2',
+        content: 'item 1',
+        isComplete: false,
+        isFocus: false,
+        text: '食事をする',
+      },
+      // {
+      //   id: 'item-2-1627328384301',
+      //   content: 'item 2',
+      //   isComplete: false,
+      //   isFocus: false,
+      //   text: '片付けをする',
+      // },
+      // {
+      //   id: 'item-3-1627328384301',
+      //   content: 'item 3',
+      //   isComplete: false,
+      //   isFocus: false,
+      //   text: '勉強をする',
+      // },
+    ],
+  ])
   // const [state, setState] = useState([list])
-  const [state, setState] = useState([getItems(5)])
+  // const [state, setState] = useState([getItems(5)])
   console.log(state)
 
   function onDragEnd(result) {
@@ -100,45 +132,45 @@ const TaskList = (props) => {
     }
   }
 
-  // const deleteItem = (e) => {
-  //   e.preventDefault()
-  //   e.stopPropagation()
-  //   dialogFuncs.openModal(e, (e) => {
-  //     const id = e.target.id
-  //     const delItem = list.find((item) => item.id == id)
-  //     setList(list.filter((item) => item.id != id))
-  //     toDoFuncs.saveToDo(list)
-  //     toastFuncs.showToast(
-  //       '「' + delItem.text + '」を削除しました。',
-  //       'success'
-  //     )
-  //   })
-  // }
+  const deleteItem = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    dialogFuncs.openModal(e, (e) => {
+      const id = e.target.id
+      const delItem = list.find((item) => item.id == id)
+      setList(list.filter((item) => item.id != id))
+      toDoFuncs.saveToDo(list)
+      toastFuncs.showToast(
+        '「' + delItem.text + '」を削除しました。',
+        'success'
+      )
+    })
+  }
 
-  //   const removeAllFocus = () => {
-  //     list.forEach((item) => (item.isFocus = false))
-  //   }
-  //
-  //   const setFocus = (id) => {
-  //     const item = list.find((item) => item.id === id)
-  //     const isFocusBefore = item.isFocus
-  //     removeAllFocus()
-  //     item.isFocus = !isFocusBefore
-  //
-  //     setFocusInfo(item.isFocus ? { id: item.id, isFocus: true } : nullFocusInfo)
-  //   }
-  //
-  //   useEffect(() => {
-  //     const updateInputItem = () => {
-  //       if (focusInfo.isFocus) {
-  //         const item = list.find((item) => item.id === focusInfo.id)
-  //         setInputItem({ ...inputItem, text: item.text })
-  //       } else {
-  //         setInputItem({ ...inputItem, text: '' })
-  //       }
-  //     }
-  //     updateInputItem()
-  //   }, [focusInfo])
+  const removeAllFocus = () => {
+    list.forEach((item) => (item.isFocus = false))
+  }
+
+  const setFocus = (id) => {
+    const item = list.find((item) => item.id === id)
+    const isFocusBefore = item.isFocus
+    removeAllFocus()
+    item.isFocus = !isFocusBefore
+
+    setFocusInfo(item.isFocus ? { id: item.id, isFocus: true } : nullFocusInfo)
+  }
+
+  useEffect(() => {
+    const updateInputItem = () => {
+      if (focusInfo.isFocus) {
+        const item = list.find((item) => item.id === focusInfo.id)
+        setInputItem({ ...inputItem, text: item.text })
+      } else {
+        setInputItem({ ...inputItem, text: '' })
+      }
+    }
+    updateInputItem()
+  }, [focusInfo])
 
   return (
     <div>
@@ -155,7 +187,7 @@ const TaskList = (props) => {
                   >
                     {el
                       // .filter((item) => item.isComplete === type.isComplete)
-                      .map((item, index) => (
+                      ?.map((item, index) => (
                         <Draggable
                           key={item.id}
                           draggableId={item.id}
