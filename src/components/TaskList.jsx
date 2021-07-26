@@ -5,13 +5,6 @@ import { LocalStorageFuncs, ToastFuncs } from '../pages/Main'
 import { DialogFuncs } from './AlertDialog'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
-// fake data generator
-const getItems = (count, offset = 0) =>
-  Array.from({ length: count }, (v, k) => k).map((k) => ({
-    id: `item-${k + offset}-${new Date().getTime()}`,
-    content: `item ${k + offset}`,
-  }))
-
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list)
   const [removed] = result.splice(startIndex, 1)
@@ -37,24 +30,6 @@ const move = (source, destination, droppableSource, droppableDestination) => {
   return result
 }
 const grid = 8
-
-const getItemStyle = (isDragging, draggableStyle) => ({
-  // some basic styles to make the items look a bit nicer
-  userSelect: 'none',
-  padding: grid * 2,
-  margin: `0 0 ${grid}px 0`,
-
-  // change background colour if dragging
-  background: isDragging ? 'lightgreen' : 'grey',
-
-  // styles we need to apply on draggables
-  ...draggableStyle,
-})
-const getListStyle = (isDraggingOver) => ({
-  background: isDraggingOver ? 'lightblue' : 'lightgrey',
-  padding: grid,
-  width: 250,
-})
 
 const TaskList = (props) => {
   const list = props.list
@@ -140,17 +115,13 @@ const TaskList = (props) => {
 
   return (
     <div>
-      <div style={{ display: 'flex' }}>
+      <div>
         <DragDropContext onDragEnd={onDragEnd}>
           <ul className="m-4 text-center">
             {state.map((el, ind) => (
               <Droppable key={ind} droppableId={`${ind}`}>
                 {(provided, snapshot) => (
-                  <div
-                    ref={provided.innerRef}
-                    style={getListStyle(snapshot.isDraggingOver)}
-                    {...provided.droppableProps}
-                  >
+                  <div ref={provided.innerRef} {...provided.droppableProps}>
                     {el
                       .filter((item) => item.isComplete === type.isComplete)
                       ?.map((item, index) => (
@@ -164,10 +135,6 @@ const TaskList = (props) => {
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
-                              style={getItemStyle(
-                                snapshot.isDragging,
-                                provided.draggableProps.style
-                              )}
                             >
                               <TaskItem
                                 key={item.id}
