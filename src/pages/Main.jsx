@@ -73,12 +73,10 @@ const Main = () => {
   }
 
   const saveToDo = (data) => {
-    console.log('saveToDo')
     save(toDoLabel, data)
   }
 
   const loadToDo = () => {
-    console.log('loadToDo')
     return load(toDoLabel)
   }
 
