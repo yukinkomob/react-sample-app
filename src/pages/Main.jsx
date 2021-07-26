@@ -29,7 +29,7 @@ const load = (key) => {
   }
 }
 
-const saveToDo = (data) => {
+export const saveToDo = (data) => {
   save(toDoLabel, data)
 }
 

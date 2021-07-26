@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useState } from 'react'
 import PropTypes from 'prop-types'
 import TaskItem from './TaskItem'
-import { LocalStorageFuncs, ToastFuncs } from '../pages/Main'
+import { LocalStorageFuncs, ToastFuncs, saveToDo } from '../pages/Main'
 import { DialogFuncs } from './AlertDialog'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 
@@ -9,6 +9,7 @@ const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list)
   const [removed] = result.splice(startIndex, 1)
   result.splice(endIndex, 0, removed)
+  saveToDo(result)
 
   return result
 }
@@ -29,7 +30,6 @@ const move = (source, destination, droppableSource, droppableDestination) => {
 
   return result
 }
-const grid = 8
 
 const TaskList = (props) => {
   const list = props.list
