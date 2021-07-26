@@ -71,41 +71,7 @@ const TaskList = (props) => {
   const toastFuncs = useContext(ToastFuncs)
   const dialogFuncs = useContext(DialogFuncs)
 
-  const [state, setState] = useState([
-    [
-      {
-        id: '1',
-        content: 'item 0',
-        isComplete: false,
-        isFocus: false,
-        text: '掃除をする',
-      },
-      {
-        id: '2',
-        content: 'item 1',
-        isComplete: false,
-        isFocus: false,
-        text: '食事をする',
-      },
-      // {
-      //   id: 'item-2-1627328384301',
-      //   content: 'item 2',
-      //   isComplete: false,
-      //   isFocus: false,
-      //   text: '片付けをする',
-      // },
-      // {
-      //   id: 'item-3-1627328384301',
-      //   content: 'item 3',
-      //   isComplete: false,
-      //   isFocus: false,
-      //   text: '勉強をする',
-      // },
-    ],
-  ])
-  // const [state, setState] = useState([list])
-  // const [state, setState] = useState([getItems(5)])
-  console.log(state)
+  const [state, setState] = useState([list])
 
   function onDragEnd(result) {
     const { source, destination } = result
@@ -186,7 +152,7 @@ const TaskList = (props) => {
                     {...provided.droppableProps}
                   >
                     {el
-                      // .filter((item) => item.isComplete === type.isComplete)
+                      .filter((item) => item.isComplete === type.isComplete)
                       ?.map((item, index) => (
                         <Draggable
                           key={item.id}
@@ -203,7 +169,14 @@ const TaskList = (props) => {
                                 provided.draggableProps.style
                               )}
                             >
-                              {item.text}
+                              <TaskItem
+                                key={item.id}
+                                item={item}
+                                setFocus={setFocus}
+                                type={type}
+                                changeIsCompleted={changeIsCompleted}
+                                deleteItem={deleteItem}
+                              />
                             </div>
                           )}
                         </Draggable>
