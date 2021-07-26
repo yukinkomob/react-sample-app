@@ -19,14 +19,27 @@ const TaskInputForm = (props) => {
     setInputItem({ ...inputItem, text: e.target.value })
   }
 
+  const getLastId = () => {
+    if (list?.length === 0) {
+      return -1
+    }
+    const ids = list.map((item) => parseInt(item.id))
+    let maxId = ids.reduce((accum, id) => {
+      return Math.max(accum, parseInt(id))
+    }, 0)
+    return maxId
+  }
+
   const registerItem = (e) => {
     e.preventDefault()
     let newInputItem = { ...inputItem }
     if (newInputItem.text === '') {
       newInputItem.text = getRandomTask()
     }
-    setNum(num + 1)
-    newInputItem.id = num
+
+    const newId = String(getLastId() + 1)
+    setNum(newId)
+    newInputItem.id = newId
     setInputItem(newInputItem)
     list.push(newInputItem)
     setInputItem({ ...inputItem, text: '' })
@@ -97,7 +110,7 @@ TaskInputForm.propTypes = {
   focusInfo: PropTypes.object,
   setFocusInfo: PropTypes.func,
   nullFocusInfo: PropTypes.object,
-  num: PropTypes.number,
+  num: PropTypes.string,
   setNum: PropTypes.func,
   list: PropTypes.array,
 }

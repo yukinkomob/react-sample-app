@@ -11,8 +11,36 @@ export const GoToFuncs = createContext()
 export const LocalStorageFuncs = createContext()
 export const ToastFuncs = createContext()
 
+const toDoLabel = 'toDoData'
+
+const save = (key, data) => {
+  const json = JSON.stringify(data)
+  localStorage.setItem(key, json)
+}
+
+const load = (key) => {
+  let getjson
+  try {
+    getjson = localStorage.getItem(key)
+    return JSON.parse(getjson)
+  } catch (e) {
+    console.log(e.message)
+    return []
+  }
+}
+
+const saveToDo = (data) => {
+  save(toDoLabel, data)
+}
+
+const loadToDo = () => {
+  return load(toDoLabel)
+}
+
+const storedList = loadToDo()
+
 const Main = () => {
-  const [num, setNum] = useState(0)
+  const [num, setNum] = useState('0')
   const [inputItem, setInputItem] = useState({
     id: -1,
     text: '',
@@ -54,33 +82,7 @@ const Main = () => {
     history.push(`/temp/${id}`, { data: sampleData })
   }
 
-  const toDoLabel = 'toDoData'
-
-  const save = (key, data) => {
-    const json = JSON.stringify(data)
-    localStorage.setItem(key, json)
-  }
-
-  const load = (key) => {
-    let getjson
-    try {
-      getjson = localStorage.getItem(key)
-      return JSON.parse(getjson)
-    } catch (e) {
-      console.log(e.message)
-      return []
-    }
-  }
-
-  const saveToDo = (data) => {
-    save(toDoLabel, data)
-  }
-
-  const loadToDo = () => {
-    return load(toDoLabel)
-  }
-
-  const [list, setList] = useState(loadToDo())
+  const [list, setList] = useState(loadToDo() ?? [])
 
   const toDoFuncs = { saveToDo, loadToDo }
 
