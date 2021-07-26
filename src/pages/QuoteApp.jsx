@@ -54,7 +54,7 @@ const getListStyle = (isDraggingOver) => ({
 })
 
 function QuoteApp() {
-  const [state, setState] = useState([getItems(10), getItems(5, 10)])
+  const [state, setState] = useState([getItems(5)])
 
   function onDragEnd(result) {
     const { source, destination } = result
@@ -83,24 +83,9 @@ function QuoteApp() {
 
   return (
     <div>
-      <button
-        type="button"
-        onClick={() => {
-          setState([...state, []])
-        }}
-      >
-        Add new group
-      </button>
-      <button
-        type="button"
-        onClick={() => {
-          setState([...state, getItems(1)])
-        }}
-      >
-        Add new item
-      </button>
       <div style={{ display: 'flex' }}>
         <DragDropContext onDragEnd={onDragEnd}>
+          {console.log(state)}
           {state.map((el, ind) => (
             <Droppable key={ind} droppableId={`${ind}`}>
               {(provided, snapshot) => (
@@ -109,12 +94,14 @@ function QuoteApp() {
                   style={getListStyle(snapshot.isDraggingOver)}
                   {...provided.droppableProps}
                 >
+                  {console.log(el, ind)}
                   {el.map((item, index) => (
                     <Draggable
                       key={item.id}
                       draggableId={item.id}
                       index={index}
                     >
+                      {console.log(item, index)}
                       {(provided, snapshot) => (
                         <div
                           ref={provided.innerRef}
@@ -125,26 +112,7 @@ function QuoteApp() {
                             provided.draggableProps.style
                           )}
                         >
-                          <div
-                            style={{
-                              display: 'flex',
-                              justifyContent: 'space-around',
-                            }}
-                          >
-                            {item.content}
-                            <button
-                              type="button"
-                              onClick={() => {
-                                const newState = [...state]
-                                newState[ind].splice(index, 1)
-                                setState(
-                                  newState.filter((group) => group.length)
-                                )
-                              }}
-                            >
-                              delete
-                            </button>
-                          </div>
+                          {item.content}
                         </div>
                       )}
                     </Draggable>
