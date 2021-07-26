@@ -58,20 +58,22 @@ const getListStyle = (isDraggingOver) => ({
 
 const TaskList = (props) => {
   const list = props.list
-  const setList = props.setList
-  const inputItem = props.inputItem
-  const setInputItem = props.setInputItem
-  const changeIsCompleted = props.changeIsCompleted
+  //   const setList = props.setList
+  //   const inputItem = props.inputItem
+  //   const setInputItem = props.setInputItem
+  //   const changeIsCompleted = props.changeIsCompleted
   const type = props.type
-  const focusInfo = props.focusInfo
-  const setFocusInfo = props.setFocusInfo
-  const nullFocusInfo = props.nullFocusInfo
+  //   const focusInfo = props.focusInfo
+  //   const setFocusInfo = props.setFocusInfo
+  //   const nullFocusInfo = props.nullFocusInfo
+  //
+  //   const toDoFuncs = useContext(LocalStorageFuncs)
+  //   const toastFuncs = useContext(ToastFuncs)
+  //   const dialogFuncs = useContext(DialogFuncs)
 
-  const toDoFuncs = useContext(LocalStorageFuncs)
-  const toastFuncs = useContext(ToastFuncs)
-  const dialogFuncs = useContext(DialogFuncs)
-
+  // const [state, setState] = useState([list])
   const [state, setState] = useState([getItems(5)])
+  console.log(state)
 
   function onDragEnd(result) {
     const { source, destination } = result
@@ -98,87 +100,91 @@ const TaskList = (props) => {
     }
   }
 
-  const deleteItem = (e) => {
-    e.preventDefault()
-    e.stopPropagation()
-    dialogFuncs.openModal(e, (e) => {
-      const id = e.target.id
-      const delItem = list.find((item) => item.id == id)
-      setList(list.filter((item) => item.id != id))
-      toDoFuncs.saveToDo(list)
-      toastFuncs.showToast(
-        '「' + delItem.text + '」を削除しました。',
-        'success'
-      )
-    })
-  }
+  // const deleteItem = (e) => {
+  //   e.preventDefault()
+  //   e.stopPropagation()
+  //   dialogFuncs.openModal(e, (e) => {
+  //     const id = e.target.id
+  //     const delItem = list.find((item) => item.id == id)
+  //     setList(list.filter((item) => item.id != id))
+  //     toDoFuncs.saveToDo(list)
+  //     toastFuncs.showToast(
+  //       '「' + delItem.text + '」を削除しました。',
+  //       'success'
+  //     )
+  //   })
+  // }
 
-  const removeAllFocus = () => {
-    list.forEach((item) => (item.isFocus = false))
-  }
-
-  const setFocus = (id) => {
-    const item = list.find((item) => item.id === id)
-    const isFocusBefore = item.isFocus
-    removeAllFocus()
-    item.isFocus = !isFocusBefore
-
-    setFocusInfo(item.isFocus ? { id: item.id, isFocus: true } : nullFocusInfo)
-  }
-
-  useEffect(() => {
-    const updateInputItem = () => {
-      if (focusInfo.isFocus) {
-        const item = list.find((item) => item.id === focusInfo.id)
-        setInputItem({ ...inputItem, text: item.text })
-      } else {
-        setInputItem({ ...inputItem, text: '' })
-      }
-    }
-    updateInputItem()
-  }, [focusInfo])
+  //   const removeAllFocus = () => {
+  //     list.forEach((item) => (item.isFocus = false))
+  //   }
+  //
+  //   const setFocus = (id) => {
+  //     const item = list.find((item) => item.id === id)
+  //     const isFocusBefore = item.isFocus
+  //     removeAllFocus()
+  //     item.isFocus = !isFocusBefore
+  //
+  //     setFocusInfo(item.isFocus ? { id: item.id, isFocus: true } : nullFocusInfo)
+  //   }
+  //
+  //   useEffect(() => {
+  //     const updateInputItem = () => {
+  //       if (focusInfo.isFocus) {
+  //         const item = list.find((item) => item.id === focusInfo.id)
+  //         setInputItem({ ...inputItem, text: item.text })
+  //       } else {
+  //         setInputItem({ ...inputItem, text: '' })
+  //       }
+  //     }
+  //     updateInputItem()
+  //   }, [focusInfo])
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <ul className="m-4 text-center">
-        {list
-          .filter((item) => item.isComplete === type.isComplete)
-          .map((item, ind) => (
-            <Droppable key="droppable" droppableId="1">
-              {(provided, snapshot) => (
-                <div
-                  ref={provided.innerRef}
-                  style={getListStyle(snapshot.isDraggingOver)}
-                  {...provided.droppableProps}
-                >
-                  <Draggable key={item.id} draggableId={item.id} index={ind}>
-                    {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        style={getItemStyle(
-                          snapshot.isDragging,
-                          provided.draggableProps.style
-                        )}
-                      >
-                        <TaskItem
+    <div>
+      <div style={{ display: 'flex' }}>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <ul className="m-4 text-center">
+            {state.map((el, ind) => (
+              <Droppable key={ind} droppableId={`${ind}`}>
+                {(provided, snapshot) => (
+                  <div
+                    ref={provided.innerRef}
+                    style={getListStyle(snapshot.isDraggingOver)}
+                    {...provided.droppableProps}
+                  >
+                    {el
+                      // .filter((item) => item.isComplete === type.isComplete)
+                      .map((item, index) => (
+                        <Draggable
                           key={item.id}
-                          item={item}
-                          setFocus={setFocus}
-                          type={type}
-                          changeIsCompleted={changeIsCompleted}
-                          deleteItem={deleteItem}
-                        />
-                      </div>
-                    )}
-                  </Draggable>
-                </div>
-              )}
-            </Droppable>
-          ))}
-      </ul>
-    </DragDropContext>
+                          draggableId={item.id}
+                          index={index}
+                        >
+                          {(provided, snapshot) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              style={getItemStyle(
+                                snapshot.isDragging,
+                                provided.draggableProps.style
+                              )}
+                            >
+                              {item.text}
+                            </div>
+                          )}
+                        </Draggable>
+                      ))}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            ))}
+          </ul>
+        </DragDropContext>
+      </div>
+    </div>
   )
 }
 
