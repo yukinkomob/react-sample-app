@@ -32,7 +32,7 @@ const move = (source, destination, droppableSource, droppableDestination) => {
 }
 
 const TaskList = (props) => {
-  const list = props.list
+  let list = props.list
   const setList = props.setList
   const inputItem = props.inputItem
   const setInputItem = props.setInputItem
@@ -78,9 +78,12 @@ const TaskList = (props) => {
     e.stopPropagation()
     dialogFuncs.openModal(e, (e) => {
       const id = e.target.id
-      const delItem = list.find((item) => item.id == id)
-      setList(list.filter((item) => item.id != id))
-      toDoFuncs.saveToDo(list)
+      const delItem = list.find((item) => item.id === id)
+      const newList = list.filter((item) => item.id !== id)
+      setList([...newList])
+      setState([[...newList]])
+      list = newList
+      saveToDo(newList)
       toastFuncs.showToast(
         '「' + delItem.text + '」を削除しました。',
         'success'
