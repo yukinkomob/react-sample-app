@@ -1,8 +1,8 @@
-import React, { useContext } from 'react'
+import React, { useContext, memo } from 'react'
 import PropTypes from 'prop-types'
 import { LocalStorageFuncs, ToastFuncs } from '../pages/Main'
 
-const TaskInputForm = (props) => {
+const TaskInputForm = memo((props) => {
   const inputItem = props.inputItem
   const setInputItem = props.setInputItem
   const focusInfo = props.focusInfo
@@ -102,7 +102,8 @@ const TaskInputForm = (props) => {
       </button>
     </form>
   )
-}
+})
+TaskInputForm.displayName = 'TaskInputForm'
 
 TaskInputForm.propTypes = {
   inputItem: PropTypes.object,

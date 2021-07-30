@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from 'react'
+import React, { useEffect, useContext, useState, memo } from 'react'
 import PropTypes from 'prop-types'
 import TaskItem from './TaskItem'
 import { LocalStorageFuncs, ToastFuncs, saveToDo } from '../pages/Main'
@@ -31,7 +31,7 @@ const move = (source, destination, droppableSource, droppableDestination) => {
   return result
 }
 
-const TaskList = (props) => {
+const TaskList = memo((props) => {
   let list = props.list
   const setList = props.setList
   const inputItem = props.inputItem
@@ -161,7 +161,8 @@ const TaskList = (props) => {
       </div>
     </div>
   )
-}
+})
+TaskList.displayName = 'TaskList'
 
 TaskList.propTypes = {
   list: PropTypes.array,

@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 
-const Header = (props) => {
+const Header = memo((props) => {
   const title = props.title
 
   return (
@@ -9,7 +9,8 @@ const Header = (props) => {
       {props.title}
     </h1>
   )
-}
+})
+Header.displayName = 'Header'
 
 Header.propTypes = {
   title: PropTypes.string,

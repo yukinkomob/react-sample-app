@@ -1,8 +1,8 @@
-import React, { useContext } from 'react'
+import React, { useContext, memo } from 'react'
 import PropTypes from 'prop-types'
 import { GoToFuncs } from '../pages/Main'
 
-const TaskItem = (props) => {
+const TaskItem = memo((props) => {
   const item = props.item
   const type = props.type
   const changeIsCompleted = props.changeIsCompleted
@@ -40,7 +40,8 @@ const TaskItem = (props) => {
       </div>
     </li>
   )
-}
+})
+TaskItem.displayName = 'TaskItem'
 
 TaskItem.propTypes = {
   item: PropTypes.object,
