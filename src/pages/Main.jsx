@@ -116,6 +116,10 @@ const Main = () => {
     }
   }
 
+  const switchList = (enabled) => {
+    console.log('sl : ' + enabled)
+  }
+
   const toastFuncs = { showToast }
 
   const dialogFuncs = { openModal }
@@ -145,7 +149,7 @@ const Main = () => {
               </div>
               <div className="text-center">
                 <h2 className="text-xl p-2 m-2">Web APIからデータ取得</h2>
-                <ToggleSwitch />
+                <ToggleSwitch switchList={switchList} />
               </div>
               <div>
                 <GoToFuncs.Provider value={goToDetail}>

@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, memo } from 'react'
 import { Switch } from '@headlessui/react'
 import { useEffect } from 'react'
+import PropTypes from 'prop-types'
 
-export default function ToggleSwitch() {
+const ToggleSwitch = memo((props) => {
   const [enabled, setEnabled] = useState(false)
+  const switchList = props.switchList
 
   useEffect(() => {
-    console.log('changed : ' + enabled)
+    switchList(enabled)
   }, [enabled])
 
   return (
@@ -26,4 +28,11 @@ export default function ToggleSwitch() {
       </Switch>
     </div>
   )
+})
+ToggleSwitch.displayName = 'ToggleSwitch'
+
+ToggleSwitch.propTypes = {
+  switchList: PropTypes.func,
 }
+
+export default ToggleSwitch
