@@ -10,12 +10,15 @@ import AlertDialog, {
   DialogFuncs,
 } from '../components/AlertDialog'
 import ToggleSwitch from '../components/ToggleSwitch'
+import axios from 'axios'
 
 export const GoToFuncs = createContext()
 export const LocalStorageFuncs = createContext()
 export const ToastFuncs = createContext()
 
 const toDoLabel = 'toDoData'
+
+let enabledWebApi = false
 
 const save = (key, data) => {
   const json = JSON.stringify(data)
@@ -41,10 +44,36 @@ const loadToDo = () => {
   return load(toDoLabel)
 }
 
-const storedList = loadToDo()
+const requestToDoList = async () => {
+  return await axios.get('https://jsonplaceholder.typicode.com/todos')
+}
+
+let webList = []
+
+const getListByApi = () => {
+  requestToDoList()
+    .then((res) => {
+      const tempList = res.data
+        .filter((item, i) => i < 10)
+        .map((item, i) => {
+          return {
+            id: String(i),
+            text: item.title,
+            isComplete: false,
+            isFocus: false,
+          }
+        })
+      webList = [...tempList]
+    })
+    .catch((e) => {
+      console.log('Error: ' + e)
+    })
+}
+getListByApi()
 
 const Main = () => {
-  const [list, setList] = useState(loadToDo() ?? [])
+  const tempList = enabledWebApi ? [...webList] : loadToDo() ?? []
+  const [list, setList] = useState([...tempList])
   const [num, setNum] = useState('0')
   const [inputItem, setInputItem] = useState({
     id: -1,
@@ -117,7 +146,12 @@ const Main = () => {
   }
 
   const switchList = (enabled) => {
-    console.log('sl : ' + enabled)
+    enabledWebApi = enabled
+    if (enabled) {
+      setList([...webList])
+    } else {
+      setList(loadToDo())
+    }
   }
 
   const toastFuncs = { showToast }

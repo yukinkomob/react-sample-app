@@ -52,7 +52,7 @@ const TaskList = memo((props) => {
   const toastFuncs = useContext(ToastFuncs)
   const dialogFuncs = useContext(DialogFuncs)
 
-  const [state, setState] = useState([list])
+  const [state, setState] = useState([[...list]])
 
   const onDragEnd = useCallback(
     (result) => {
@@ -120,6 +120,10 @@ const TaskList = memo((props) => {
     },
     [list]
   )
+
+  useEffect(() => {
+    setState([[...list]])
+  }, [list])
 
   useEffect(() => {
     const updateInputItem = () => {
