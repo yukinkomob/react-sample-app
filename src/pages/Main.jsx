@@ -1,4 +1,4 @@
-import React, { useState, createContext, useCallback } from 'react'
+import React, { useState, createContext, useCallback, useMemo } from 'react'
 import { useHistory } from 'react-router-dom'
 import Header from '../components/Header'
 import TaskInputForm from '../components/TaskInputForm'
@@ -48,6 +48,13 @@ const Main = () => {
     isComplete: false,
     isFocus: false,
   })
+
+  const uncompleted_num = useMemo(() => {
+    return list.filter((item) => item.isComplete === false).length
+  }, [list])
+  const completed_num = useMemo(() => {
+    return list.filter((item) => item.isComplete === true).length
+  }, [list])
 
   const history = useHistory()
 
@@ -134,7 +141,9 @@ const Main = () => {
               </div>
               <div>
                 <GoToFuncs.Provider value={goToDetail}>
-                  <h2 className="text-2xl m-2 p-2 text-blue-800">未完了</h2>
+                  <h2 className="text-2xl m-2 p-2 text-blue-800">
+                    未完了：{uncompleted_num} 件
+                  </h2>
                   <TaskList
                     list={list}
                     setList={setList}
@@ -146,7 +155,9 @@ const Main = () => {
                     setFocusInfo={setFocusInfo}
                     nullFocusInfo={NullFocusInfo}
                   />
-                  <h2 className="text-2xl m-2 p-2 text-blue-800">完了</h2>
+                  <h2 className="text-2xl m-2 p-2 text-blue-800">
+                    完了：{completed_num} 件
+                  </h2>
                   <TaskList
                     list={list}
                     setList={setList}
