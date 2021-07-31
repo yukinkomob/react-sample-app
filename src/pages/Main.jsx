@@ -4,8 +4,12 @@ import Header from '../components/Header'
 import TaskInputForm from '../components/TaskInputForm'
 import TaskList from '../components/TaskList'
 import toast, { Toaster } from 'react-hot-toast'
-import AlertDialog, { openModal, closeModal } from '../components/AlertDialog'
-import { DialogFuncs } from '../components/AlertDialog'
+import AlertDialog, {
+  openModal,
+  closeModal,
+  DialogFuncs,
+} from '../components/AlertDialog'
+import ToggleSwitch from '../components/ToggleSwitch'
 
 export const GoToFuncs = createContext()
 export const LocalStorageFuncs = createContext()
@@ -138,6 +142,10 @@ const Main = () => {
                   setNum={setNum}
                   list={list}
                 />
+              </div>
+              <div className="text-center">
+                <h2 className="text-xl p-2 m-2">Web APIからデータ取得</h2>
+                <ToggleSwitch />
               </div>
               <div>
                 <GoToFuncs.Provider value={goToDetail}>
