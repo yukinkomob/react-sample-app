@@ -100,7 +100,7 @@ const TaskList = memo((props) => {
         )
       })
     },
-    [list]
+    [list, dialogFuncs]
   )
 
   const removeAllFocus = useCallback(() => {
