@@ -1,4 +1,4 @@
-import React, { useContext, memo } from 'react'
+import React, { useContext, memo, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { LocalStorageFuncs, ToastFuncs } from '../pages/Main'
 
@@ -15,11 +15,14 @@ const TaskInputForm = memo((props) => {
   const toDoFuncs = useContext(LocalStorageFuncs)
   const toastFuncs = useContext(ToastFuncs)
 
-  const handleChange = (e) => {
-    setInputItem({ ...inputItem, text: e.target.value })
-  }
+  const handleChange = useCallback(
+    (e) => {
+      setInputItem({ ...inputItem, text: e.target.value })
+    },
+    [inputItem]
+  )
 
-  const getLastId = () => {
+  const getLastId = useCallback(() => {
     if (list?.length === 0) {
       return -1
     }
@@ -28,41 +31,47 @@ const TaskInputForm = memo((props) => {
       return Math.max(accum, parseInt(id))
     }, 0)
     return maxId
-  }
+  }, [list])
 
-  const registerItem = (e) => {
-    e.preventDefault()
-    let newInputItem = { ...inputItem }
-    if (newInputItem.text === '') {
-      newInputItem.text = getRandomTask()
-    }
+  const registerItem = useCallback(
+    (e) => {
+      e.preventDefault()
+      let newInputItem = { ...inputItem }
+      if (newInputItem.text === '') {
+        newInputItem.text = getRandomTask()
+      }
 
-    const newId = String(getLastId() + 1)
-    setNum(newId)
-    newInputItem.id = newId
-    setInputItem(newInputItem)
-    list.push(newInputItem)
-    setInputItem({ ...inputItem, text: '' })
-    toDoFuncs.saveToDo(list)
-    toastFuncs.showToast(
-      '「' + newInputItem.text + '」を追加しました。',
-      'success'
-    )
-  }
+      const newId = String(getLastId() + 1)
+      setNum(newId)
+      newInputItem.id = newId
+      setInputItem(newInputItem)
+      list.push(newInputItem)
+      setInputItem({ ...inputItem, text: '' })
+      toDoFuncs.saveToDo(list)
+      toastFuncs.showToast(
+        '「' + newInputItem.text + '」を追加しました。',
+        'success'
+      )
+    },
+    [inputItem, list]
+  )
 
-  const editItem = (e) => {
-    e.preventDefault()
-    let currentItem = list.find((item) => item.id == focusInfo.id)
-    currentItem.text = inputItem.text
-    currentItem.isFocus = false
-    setFocusInfo(nullFocusInfo)
-    setInputItem({ ...inputItem, text: '' })
-    toDoFuncs.saveToDo(list)
-    toastFuncs.showToast(
-      '「' + currentItem.text + '」に更新しました。',
-      'success'
-    )
-  }
+  const editItem = useCallback(
+    (e) => {
+      e.preventDefault()
+      let currentItem = list.find((item) => item.id == focusInfo.id)
+      currentItem.text = inputItem.text
+      currentItem.isFocus = false
+      setFocusInfo(nullFocusInfo)
+      setInputItem({ ...inputItem, text: '' })
+      toDoFuncs.saveToDo(list)
+      toastFuncs.showToast(
+        '「' + currentItem.text + '」に更新しました。',
+        'success'
+      )
+    },
+    [list, focusInfo, inputItem]
+  )
 
   const randomTask = [
     '掃除をする',

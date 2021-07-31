@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext } from 'react'
+import React, { useState, createContext, useCallback } from 'react'
 import { useHistory } from 'react-router-dom'
 import Header from '../components/Header'
 import TaskInputForm from '../components/TaskInputForm'
@@ -40,6 +40,7 @@ const loadToDo = () => {
 const storedList = loadToDo()
 
 const Main = () => {
+  const [list, setList] = useState(loadToDo() ?? [])
   const [num, setNum] = useState('0')
   const [inputItem, setInputItem] = useState({
     id: -1,
@@ -57,14 +58,17 @@ const Main = () => {
 
   const [focusInfo, setFocusInfo] = useState(NullFocusInfo)
 
-  const changeIsCompleted = (e) => {
-    e.preventDefault()
-    e.stopPropagation()
-    const item = list.find((item) => item.id == e.target.id)
-    item.isComplete = !item.isComplete
-    setList([...list])
-    saveToDo(list)
-  }
+  const changeIsCompleted = useCallback(
+    (e) => {
+      e.preventDefault()
+      e.stopPropagation()
+      const item = list.find((item) => item.id == e.target.id)
+      item.isComplete = !item.isComplete
+      setList([...list])
+      saveToDo(list)
+    },
+    [list]
+  )
 
   const sampleData = {
     id: 100,
@@ -76,13 +80,14 @@ const Main = () => {
     registeredDate: '2022-07-20',
   }
 
-  const goToDetail = (e, id) => {
-    e.preventDefault()
-    e.stopPropagation()
-    history.push(`/temp/${id}`, { data: sampleData })
-  }
-
-  const [list, setList] = useState(loadToDo() ?? [])
+  const goToDetail = useCallback(
+    (e, id) => {
+      e.preventDefault()
+      e.stopPropagation()
+      history.push(`/temp/${id}`, { data: sampleData })
+    },
+    [sampleData]
+  )
 
   const toDoFuncs = { saveToDo, loadToDo }
 

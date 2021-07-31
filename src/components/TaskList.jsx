@@ -1,4 +1,10 @@
-import React, { useEffect, useContext, useState, memo } from 'react'
+import React, {
+  useEffect,
+  useContext,
+  useState,
+  memo,
+  useCallback,
+} from 'react'
 import PropTypes from 'prop-types'
 import TaskItem from './TaskItem'
 import { LocalStorageFuncs, ToastFuncs, saveToDo } from '../pages/Main'
@@ -48,61 +54,72 @@ const TaskList = memo((props) => {
 
   const [state, setState] = useState([list])
 
-  function onDragEnd(result) {
-    const { source, destination } = result
+  const onDragEnd = useCallback(
+    (result) => {
+      const { source, destination } = result
 
-    // dropped outside the list
-    if (!destination) {
-      return
-    }
-    const sInd = +source.droppableId
-    const dInd = +destination.droppableId
+      // dropped outside the list
+      if (!destination) {
+        return
+      }
+      const sInd = +source.droppableId
+      const dInd = +destination.droppableId
 
-    if (sInd === dInd) {
-      const items = reorder(state[sInd], source.index, destination.index)
-      const newState = [...state]
-      newState[sInd] = items
-      setState(newState)
-    } else {
-      const result = move(state[sInd], state[dInd], source, destination)
-      const newState = [...state]
-      newState[sInd] = result[sInd]
-      newState[dInd] = result[dInd]
+      if (sInd === dInd) {
+        const items = reorder(state[sInd], source.index, destination.index)
+        const newState = [...state]
+        newState[sInd] = items
+        setState(newState)
+      } else {
+        const result = move(state[sInd], state[dInd], source, destination)
+        const newState = [...state]
+        newState[sInd] = result[sInd]
+        newState[dInd] = result[dInd]
 
-      setState(newState.filter((group) => group.length))
-    }
-  }
+        setState(newState.filter((group) => group.length))
+      }
+    },
+    [state]
+  )
 
-  const deleteItem = (e) => {
-    e.preventDefault()
-    e.stopPropagation()
-    dialogFuncs.openModal(e, (e) => {
-      const id = e.target.id
-      const delItem = list.find((item) => item.id === id)
-      const newList = list.filter((item) => item.id !== id)
-      setList([...newList])
-      setState([[...newList]])
-      list = newList
-      saveToDo(newList)
-      toastFuncs.showToast(
-        '「' + delItem.text + '」を削除しました。',
-        'success'
-      )
-    })
-  }
+  const deleteItem = useCallback(
+    (e) => {
+      e.preventDefault()
+      e.stopPropagation()
+      dialogFuncs.openModal(e, (e) => {
+        const id = e.target.id
+        const delItem = list.find((item) => item.id === id)
+        const newList = list.filter((item) => item.id !== id)
+        setList([...newList])
+        setState([[...newList]])
+        list = newList
+        saveToDo(newList)
+        toastFuncs.showToast(
+          '「' + delItem.text + '」を削除しました。',
+          'success'
+        )
+      })
+    },
+    [list]
+  )
 
-  const removeAllFocus = () => {
+  const removeAllFocus = useCallback(() => {
     list.forEach((item) => (item.isFocus = false))
-  }
+  }, [list])
 
-  const setFocus = (id) => {
-    const item = list.find((item) => item.id === id)
-    const isFocusBefore = item.isFocus
-    removeAllFocus()
-    item.isFocus = !isFocusBefore
+  const setFocus = useCallback(
+    (id) => {
+      const item = list.find((item) => item.id === id)
+      const isFocusBefore = item.isFocus
+      removeAllFocus()
+      item.isFocus = !isFocusBefore
 
-    setFocusInfo(item.isFocus ? { id: item.id, isFocus: true } : nullFocusInfo)
-  }
+      setFocusInfo(
+        item.isFocus ? { id: item.id, isFocus: true } : nullFocusInfo
+      )
+    },
+    [list]
+  )
 
   useEffect(() => {
     const updateInputItem = () => {
