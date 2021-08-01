@@ -187,6 +187,7 @@ const Main = () => {
                   num={num}
                   setNum={setNum}
                   list={list}
+                  setList={setList}
                 />
               </div>
               <div className="text-center">

@@ -1,6 +1,7 @@
 import React, { useContext, memo, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { LocalStorageFuncs, ToastFuncs } from '../pages/Main'
+import { useEffect } from 'react'
 
 const TaskInputForm = memo((props) => {
   const inputItem = props.inputItem
@@ -11,6 +12,7 @@ const TaskInputForm = memo((props) => {
   const num = props.num
   const setNum = props.setNum
   const list = props.list
+  const setList = props.setList
 
   const toDoFuncs = useContext(LocalStorageFuncs)
   const toastFuncs = useContext(ToastFuncs)
@@ -55,6 +57,10 @@ const TaskInputForm = memo((props) => {
     },
     [inputItem, list]
   )
+
+  useEffect(() => {
+    setList([...list])
+  }, [list])
 
   const editItem = useCallback(
     (e) => {
@@ -123,6 +129,7 @@ TaskInputForm.propTypes = {
   num: PropTypes.string,
   setNum: PropTypes.func,
   list: PropTypes.array,
+  setList: PropTypes.func,
 }
 
 export default TaskInputForm
