@@ -74,7 +74,6 @@ getListByApi()
 const Main = () => {
   const tempList = enabledWebApi ? [...webList] : loadToDo() ?? []
   const [list, setList] = useState(tempList ? [...tempList] : [])
-  console.log('list', list)
   const [num, setNum] = useState('0')
   const [inputItem, setInputItem] = useState({
     id: -1,
@@ -191,7 +190,7 @@ const Main = () => {
                 />
               </div>
               <div className="text-center">
-                <h2 className="text-xl p-2 m-2">Web APIからデータ取得</h2>
+                <h2 className="text-xl p-2 m-2">Web APIでデータ取得</h2>
                 <ToggleSwitch switchList={switchList} />
               </div>
               <div>

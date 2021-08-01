@@ -54,13 +54,10 @@ const TaskInputForm = memo((props) => {
         '「' + newInputItem.text + '」を追加しました。',
         'success'
       )
+      setList([...list])
     },
     [inputItem, list]
   )
-
-  useEffect(() => {
-    setList([...list])
-  }, [list])
 
   const editItem = useCallback(
     (e) => {
