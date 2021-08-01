@@ -23,7 +23,7 @@ const TaskInputForm = memo((props) => {
   )
 
   const getLastId = useCallback(() => {
-    if (list?.length === 0) {
+    if (!list || list?.length === 0) {
       return -1
     }
     const ids = list.map((item) => parseInt(item.id))

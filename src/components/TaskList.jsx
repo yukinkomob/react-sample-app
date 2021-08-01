@@ -52,7 +52,7 @@ const TaskList = memo((props) => {
   const toastFuncs = useContext(ToastFuncs)
   const dialogFuncs = useContext(DialogFuncs)
 
-  const [state, setState] = useState([[...list]])
+  const [state, setState] = useState(list ? [[...list]] : [])
 
   const onDragEnd = useCallback(
     (result) => {
@@ -122,7 +122,7 @@ const TaskList = memo((props) => {
   )
 
   useEffect(() => {
-    setState([[...list]])
+    setState(list ? [[...list]] : [])
   }, [list])
 
   useEffect(() => {
