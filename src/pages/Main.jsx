@@ -73,7 +73,8 @@ getListByApi()
 
 const Main = () => {
   const tempList = enabledWebApi ? [...webList] : loadToDo() ?? []
-  const [list, setList] = useState([...tempList])
+  const [list, setList] = useState(tempList ? [...tempList] : [])
+  console.log('list', list)
   const [num, setNum] = useState('0')
   const [inputItem, setInputItem] = useState({
     id: -1,
@@ -83,9 +84,15 @@ const Main = () => {
   })
 
   const uncompleted_num = useMemo(() => {
+    if (!list || list.length === 0) {
+      return 0
+    }
     return list.filter((item) => item.isComplete === false).length
   }, [list])
   const completed_num = useMemo(() => {
+    if (!list || list.length === 0) {
+      return 0
+    }
     return list.filter((item) => item.isComplete === true).length
   }, [list])
 
@@ -150,7 +157,8 @@ const Main = () => {
     if (enabled) {
       setList([...webList])
     } else {
-      setList(loadToDo())
+      const savedList = loadToDo()
+      setList(savedList ? savedList : [])
     }
   }
 
