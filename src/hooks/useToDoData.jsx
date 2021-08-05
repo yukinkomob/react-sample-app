@@ -27,6 +27,6 @@ export const UseToDoData = () => {
     } finally {
       setIsLoading(false)
     }
-  })
+  }, [])
   return { webList, isLoading, fetch }
 }
