@@ -1,7 +1,6 @@
 import React, { useContext, memo, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import { LocalStorageFuncs, ToastFuncs } from '../pages/Main'
-import { useEffect } from 'react'
 
 const TaskInputForm = memo((props) => {
   const inputItem = props.inputItem

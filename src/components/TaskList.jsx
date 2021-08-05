@@ -48,7 +48,6 @@ const TaskList = memo((props) => {
   const setFocusInfo = props.setFocusInfo
   const nullFocusInfo = props.nullFocusInfo
 
-  const toDoFuncs = useContext(LocalStorageFuncs)
   const toastFuncs = useContext(ToastFuncs)
   const dialogFuncs = useContext(DialogFuncs)
 

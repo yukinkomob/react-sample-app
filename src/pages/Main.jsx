@@ -4,11 +4,7 @@ import Header from '../components/Header'
 import TaskInputForm from '../components/TaskInputForm'
 import TaskList from '../components/TaskList'
 import toast, { Toaster } from 'react-hot-toast'
-import AlertDialog, {
-  openModal,
-  closeModal,
-  DialogFuncs,
-} from '../components/AlertDialog'
+import AlertDialog, { openModal, DialogFuncs } from '../components/AlertDialog'
 import ToggleSwitch from '../components/ToggleSwitch'
 import { UseToDoData } from '../hooks/useToDoData'
 import { useEffect } from 'react'
