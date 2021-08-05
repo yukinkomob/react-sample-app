@@ -10,7 +10,8 @@ import AlertDialog, {
   DialogFuncs,
 } from '../components/AlertDialog'
 import ToggleSwitch from '../components/ToggleSwitch'
-import axios from 'axios'
+import { UseToDoData } from '../hooks/useToDoData'
+import { useEffect } from 'react'
 
 export const GoToFuncs = createContext()
 export const LocalStorageFuncs = createContext()
@@ -44,34 +45,11 @@ const loadToDo = () => {
   return load(toDoLabel)
 }
 
-const requestToDoList = async () => {
-  return await axios.get('https://jsonplaceholder.typicode.com/todos')
-}
-
-let webList = []
-
-const getListByApi = () => {
-  requestToDoList()
-    .then((res) => {
-      const tempList = res.data
-        .filter((item, i) => i < 10)
-        .map((item, i) => {
-          return {
-            id: String(i),
-            text: item.title,
-            isComplete: false,
-            isFocus: false,
-          }
-        })
-      webList = [...tempList]
-    })
-    .catch((e) => {
-      console.log('Error: ' + e)
-    })
-}
-getListByApi()
-
 const Main = () => {
+  const { webList, isLoading, fetch } = UseToDoData()
+  useEffect(() => {
+    fetch()
+  }, [fetch])
   const tempList = enabledWebApi ? [...webList] : loadToDo() ?? []
   const [list, setList] = useState(tempList ? [...tempList] : [])
   const [num, setNum] = useState('0')
@@ -154,6 +132,7 @@ const Main = () => {
   const switchList = (enabled) => {
     enabledWebApi = enabled
     if (enabled) {
+      console.log('sL', webList)
       setList([...webList])
     } else {
       const savedList = loadToDo()
