@@ -148,7 +148,14 @@ const Main = () => {
             <div>
               <Toaster />
             </div>
-            <AlertDialog />
+            <AlertDialog
+              data={{
+                title: '確認',
+                text: '選択した ToDo 項目を削除しても良いですか？',
+                ok: 'OK',
+                cancel: 'Cancel',
+              }}
+            />
             <LocalStorageFuncs.Provider value={toDoFuncs}>
               <div className="text-center">
                 <Header title={'ToDoアプリ'} />

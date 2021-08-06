@@ -1,6 +1,7 @@
 import React, { createContext } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useState } from 'react'
+import PropTypes from 'prop-types'
 
 export const DialogFuncs = createContext()
 export let openModal
@@ -9,7 +10,8 @@ export let closeModal
 let closeFunc = () => {}
 let event
 
-export default function AlertDialog() {
+export default function AlertDialog(props) {
+  const { title, text, ok, cancel } = props.data
   let [isOpen, setIsOpen] = useState(false)
 
   closeModal = (isOk) => {
@@ -67,29 +69,31 @@ export default function AlertDialog() {
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900"
                 >
-                  確認
+                  {title}
                 </Dialog.Title>
                 <div className="mt-2">
-                  <p className="text-sm text-gray-500">
-                    選択した ToDo 項目を削除しても良いですか？
-                  </p>
+                  <p className="text-sm text-gray-500">{text}</p>
                 </div>
 
                 <div className="mt-4 space-x-4">
-                  <button
-                    type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                    onClick={() => closeModal(true)}
-                  >
-                    OK
-                  </button>
-                  <button
-                    type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                    onClick={() => closeModal(false)}
-                  >
-                    Cancel
-                  </button>
+                  {ok && (
+                    <button
+                      type="button"
+                      className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                      onClick={() => closeModal(true)}
+                    >
+                      {ok}
+                    </button>
+                  )}
+                  {cancel && (
+                    <button
+                      type="button"
+                      className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                      onClick={() => closeModal(false)}
+                    >
+                      {cancel}
+                    </button>
+                  )}
                 </div>
               </div>
             </Transition.Child>
@@ -98,4 +102,7 @@ export default function AlertDialog() {
       </Transition>
     </>
   )
+}
+AlertDialog.propTypes = {
+  data: PropTypes.object,
 }
