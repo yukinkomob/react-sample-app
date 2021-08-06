@@ -3,81 +3,62 @@ import PropTypes from 'prop-types'
 import { useParams, useLocation, Link } from 'react-router-dom'
 import Header from '../components/Header'
 
-const DetailInputForms = (props) => {
+const DetailInputForm = (props) => {
+  const { title, data, isTextArea } = props.param
+  const inputTextForm = (
+    <input
+      className="p-2 text-center text-xl w-full"
+      type="text"
+      value={data}
+      onChange={(e) => {
+        data.title = e.target.value
+      }}
+    />
+  )
+  const textAreaForm = (
+    <td className="p-4 w-96">
+      <textarea
+        className="p-2 w-full text-left"
+        defaultValue={data}
+        onChange={(e) => {
+          data.content = e.target.value
+        }}
+      ></textarea>
+    </td>
+  )
+  const form = isTextArea ? textAreaForm : inputTextForm
+  return (
+    <tr>
+      <td className="p-4 text-xl">{title}</td>
+      <td className="p-4">{form}</td>
+    </tr>
+  )
+}
+
+DetailInputForm.propTypes = {
+  param: PropTypes.object,
+}
+
+const DetailFormsTable = (props) => {
   const data = props.data
   return (
     <table className="m-4 text-center bg-blue-200">
       <tbody>
-        <tr>
-          <td className="p-4 text-xl">Title</td>
-          <td className="p-4">
-            <input
-              className="p-2 text-center text-xl w-full"
-              type="text"
-              value={data.title}
-              onChange={(e) => {
-                data.title = e.target.value
-              }}
-            />
-          </td>
-        </tr>
-        <tr>
-          <td className="p-8 text-xl">カテゴリ</td>
-          <td className="p-4">
-            <input
-              className="p-2 text-center text-xl w-full"
-              type="text"
-              value={data.category}
-              onChange={(e) => {
-                data.category = e.target.value
-              }}
-            />
-          </td>
-        </tr>
-        <tr>
-          <td className="p-8 text-xl">内容</td>
-          <td className="p-4 w-96">
-            <textarea
-              className="p-2 w-full text-left"
-              defaultValue={data.content}
-              onChange={(e) => {
-                data.content = e.target.value
-              }}
-            ></textarea>
-          </td>
-        </tr>
-        <tr>
-          <td className="p-8 text-xl">期限</td>
-          <td className="p-4">
-            <input
-              className="p-2 text-center text-xl w-full"
-              type="text"
-              value={data.expiredDate}
-              onChange={(e) => {
-                data.expiredDate = e.target.value
-              }}
-            />
-          </td>
-        </tr>
-        <tr>
-          <td className="p-8 text-xl">登録日</td>
-          <td className="p-4">
-            <input
-              className="p-2 text-center text-xl w-full"
-              type="text"
-              value={data.registeredDate}
-              onChange={(e) => {
-                data.registeredDate = e.target.value
-              }}
-            />
-          </td>
-        </tr>
+        <DetailInputForm param={{ title: 'タイトル', data: data.title }} />
+        <DetailInputForm param={{ title: 'カテゴリ', data: data.category }} />
+        <DetailInputForm
+          param={{ title: 'カテゴリ', data: data.content, isTextArea: true }}
+        />
+        <DetailInputForm param={{ title: '期限', data: data.expiredDate }} />
+        <DetailInputForm
+          param={{ title: '登録日', data: data.registeredDate }}
+        />
       </tbody>
     </table>
   )
 }
 
-DetailInputForms.propTypes = {
+DetailFormsTable.propTypes = {
   data: PropTypes.object,
 }
 
@@ -107,7 +88,7 @@ const Detail = () => {
       <Header title="ToDoアプリ" />
       <DetailTitle id={id} />
       <div className="flex justify-center">
-        <DetailInputForms data={data} />
+        <DetailFormsTable data={data} />
       </div>
       <BackToLink />
     </div>
