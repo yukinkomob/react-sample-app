@@ -3,18 +3,20 @@ import PropTypes from 'prop-types'
 import { LocalStorageFuncs, ToastFuncs } from '../pages/Main'
 
 const TaskInputForm = memo((props) => {
-  const inputItem = props.inputItem
-  const setInputItem = props.setInputItem
-  const focusInfo = props.focusInfo
-  const setFocusInfo = props.setFocusInfo
-  const nullFocusInfo = props.nullFocusInfo
-  const num = props.num
-  const setNum = props.setNum
-  const list = props.list
-  const setList = props.setList
+  const {
+    focusInfo,
+    setFocusInfo,
+    nullFocusInfo,
+    inputItem,
+    setInputItem,
+    num,
+    setNum,
+    list,
+    setList,
+  } = props.data
 
-  const toDoFuncs = useContext(LocalStorageFuncs)
-  const toastFuncs = useContext(ToastFuncs)
+  const { saveToDo } = useContext(LocalStorageFuncs)
+  const showToast = useContext(ToastFuncs)
 
   const handleChange = useCallback(
     (e) => {
@@ -48,11 +50,8 @@ const TaskInputForm = memo((props) => {
       setInputItem(newInputItem)
       list.push(newInputItem)
       setInputItem({ ...inputItem, text: '' })
-      toDoFuncs.saveToDo(list)
-      toastFuncs.showToast(
-        '「' + newInputItem.text + '」を追加しました。',
-        'success'
-      )
+      saveToDo(list)
+      showToast('「' + newInputItem.text + '」を追加しました。', 'success')
       setList([...list])
     },
     [inputItem, list]
@@ -66,11 +65,8 @@ const TaskInputForm = memo((props) => {
       currentItem.isFocus = false
       setFocusInfo(nullFocusInfo)
       setInputItem({ ...inputItem, text: '' })
-      toDoFuncs.saveToDo(list)
-      toastFuncs.showToast(
-        '「' + currentItem.text + '」に更新しました。',
-        'success'
-      )
+      saveToDo(list)
+      showToast('「' + currentItem.text + '」に更新しました。', 'success')
     },
     [list, focusInfo, inputItem]
   )
@@ -117,15 +113,7 @@ const TaskInputForm = memo((props) => {
 TaskInputForm.displayName = 'TaskInputForm'
 
 TaskInputForm.propTypes = {
-  inputItem: PropTypes.object,
-  setInputItem: PropTypes.func,
-  focusInfo: PropTypes.object,
-  setFocusInfo: PropTypes.func,
-  nullFocusInfo: PropTypes.object,
-  num: PropTypes.string,
-  setNum: PropTypes.func,
-  list: PropTypes.array,
-  setList: PropTypes.func,
+  data: PropTypes.object,
 }
 
 export default TaskInputForm

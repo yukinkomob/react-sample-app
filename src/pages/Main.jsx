@@ -4,7 +4,7 @@ import Header from '../components/Header'
 import TaskInputForm from '../components/TaskInputForm'
 import TaskList from '../components/TaskList'
 import toast, { Toaster } from 'react-hot-toast'
-import AlertDialog, { openModal, DialogFuncs } from '../components/AlertDialog'
+import AlertDialog, { DialogFuncs, openModal } from '../components/AlertDialog'
 import ToggleSwitch from '../components/ToggleSwitch'
 import { UseToDoData } from '../hooks/useToDoData'
 import { useEffect } from 'react'
@@ -33,7 +33,7 @@ const load = (key) => {
   }
 }
 
-export const saveToDo = (data) => {
+const saveToDo = (data) => {
   save(toDoLabel, data)
 }
 
@@ -109,8 +109,6 @@ const Main = () => {
     [sampleData]
   )
 
-  const toDoFuncs = { saveToDo, loadToDo }
-
   const showToast = (msg, type) => {
     switch (type) {
       case 'success':
@@ -136,14 +134,10 @@ const Main = () => {
     }
   }
 
-  const toastFuncs = { showToast }
-
-  const dialogFuncs = { openModal }
-
   return (
     <div className="App">
-      <DialogFuncs.Provider value={dialogFuncs}>
-        <ToastFuncs.Provider value={toastFuncs}>
+      <DialogFuncs.Provider value={openModal}>
+        <ToastFuncs.Provider value={showToast}>
           <div>
             <div>
               <Toaster />
@@ -156,19 +150,21 @@ const Main = () => {
                 cancel: 'Cancel',
               }}
             />
-            <LocalStorageFuncs.Provider value={toDoFuncs}>
+            <LocalStorageFuncs.Provider value={{ saveToDo, loadToDo }}>
               <div className="text-center">
                 <Header title={'ToDoアプリ'} />
                 <TaskInputForm
-                  focusInfo={focusInfo}
-                  setFocusInfo={setFocusInfo}
-                  nullFocusInfo={NullFocusInfo}
-                  inputItem={inputItem}
-                  setInputItem={setInputItem}
-                  num={num}
-                  setNum={setNum}
-                  list={list}
-                  setList={setList}
+                  data={{
+                    focusInfo,
+                    setFocusInfo,
+                    nullFocusInfo: NullFocusInfo,
+                    inputItem,
+                    setInputItem,
+                    num,
+                    setNum,
+                    list,
+                    setList,
+                  }}
                 />
               </div>
               <div className="text-center">

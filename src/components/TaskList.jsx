@@ -7,18 +7,9 @@ import React, {
 } from 'react'
 import PropTypes from 'prop-types'
 import TaskItem from './TaskItem'
-import { LocalStorageFuncs, ToastFuncs, saveToDo } from '../pages/Main'
+import { LocalStorageFuncs, ToastFuncs } from '../pages/Main'
 import { DialogFuncs } from './AlertDialog'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
-
-const reorder = (list, startIndex, endIndex) => {
-  const result = Array.from(list)
-  const [removed] = result.splice(startIndex, 1)
-  result.splice(endIndex, 0, removed)
-  saveToDo(result)
-
-  return result
-}
 
 /**
  * Moves an item from one list to another list.
@@ -48,10 +39,20 @@ const TaskList = memo((props) => {
   const setFocusInfo = props.setFocusInfo
   const nullFocusInfo = props.nullFocusInfo
 
-  const toastFuncs = useContext(ToastFuncs)
-  const dialogFuncs = useContext(DialogFuncs)
+  const showToast = useContext(ToastFuncs)
+  const openModal = useContext(DialogFuncs)
 
   const [state, setState] = useState(list ? [[...list]] : [])
+
+  const { saveToDo } = useContext(LocalStorageFuncs)
+
+  const reorder = (list, startIndex, endIndex) => {
+    const result = Array.from(list)
+    const [removed] = result.splice(startIndex, 1)
+    result.splice(endIndex, 0, removed)
+    saveToDo(result)
+    return result
+  }
 
   const onDragEnd = useCallback(
     (result) => {
@@ -85,7 +86,7 @@ const TaskList = memo((props) => {
     (e) => {
       e.preventDefault()
       e.stopPropagation()
-      dialogFuncs.openModal(e, (e) => {
+      openModal(e, (e) => {
         const id = e.target.id
         const delItem = list.find((item) => item.id === id)
         const newList = list.filter((item) => item.id !== id)
@@ -93,13 +94,10 @@ const TaskList = memo((props) => {
         setState([[...newList]])
         list = newList
         saveToDo(newList)
-        toastFuncs.showToast(
-          '「' + delItem.text + '」を削除しました。',
-          'success'
-        )
+        showToast('「' + delItem.text + '」を削除しました。', 'success')
       })
     },
-    [list, dialogFuncs]
+    [list, openModal]
   )
 
   const removeAllFocus = useCallback(() => {
@@ -160,12 +158,14 @@ const TaskList = memo((props) => {
                               {...provided.dragHandleProps}
                             >
                               <TaskItem
-                                key={item.id}
-                                item={item}
-                                setFocus={setFocus}
-                                type={type}
-                                changeIsCompleted={changeIsCompleted}
-                                deleteItem={deleteItem}
+                                args={{
+                                  key: item.id,
+                                  item,
+                                  setFocus,
+                                  type,
+                                  changeIsCompleted,
+                                  deleteItem,
+                                }}
                               />
                             </div>
                           )}
