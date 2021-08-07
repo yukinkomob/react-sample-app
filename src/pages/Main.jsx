@@ -7,7 +7,7 @@ import WebListToggleSwitch from '../components/Main/WebListToggleSwitch'
 import { saveToDo, loadToDo } from '../utils/LocalStorage'
 import { NullFocusInfo } from '../utils/NullData'
 import { showToast } from '../utils/Utils'
-import ToDoDisplay from '../components/ToDoDisplay'
+import TaskDisplay from '../components/TaskDisplay'
 
 export const LocalStorageFuncs = createContext()
 export const ToastFuncs = createContext()
@@ -71,7 +71,7 @@ const Main = () => {
                 />
               </div>
               <WebListToggleSwitch args={{ loadToDo, setList }} />
-              <ToDoDisplay
+              <TaskDisplay
                 args={{
                   list,
                   setList,

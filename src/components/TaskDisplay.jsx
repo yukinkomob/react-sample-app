@@ -1,11 +1,11 @@
 import React, { createContext, useMemo } from 'react'
 import PropTypes from 'prop-types'
-import TaskList from '../components/TaskList'
+import TaskList from './TaskList'
 import { goToDetail } from '../utils/Utils'
 
 export const GoToFuncs = createContext()
 
-const ToDoDisplay = (props) => {
+const TaskDisplay = (props) => {
   const {
     list,
     setList,
@@ -70,7 +70,7 @@ const ToDoDisplay = (props) => {
     </div>
   )
 }
-ToDoDisplay.propTypes = {
+TaskDisplay.propTypes = {
   args: PropTypes.object,
 }
-export default ToDoDisplay
+export default TaskDisplay

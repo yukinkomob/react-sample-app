@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
-import { GoToFuncs } from '../../components/ToDoDisplay'
+import { GoToFuncs } from '../TaskDisplay'
 import { useHistory } from 'react-router-dom'
 
 const DetailButton = (props) => {
