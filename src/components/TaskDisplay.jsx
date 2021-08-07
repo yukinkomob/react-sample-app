@@ -1,7 +1,7 @@
-import React, { createContext, useMemo } from 'react'
 import PropTypes from 'prop-types'
-import TaskList from './TaskList'
+import React, { createContext, useMemo } from 'react'
 import { goToDetail } from '../utils/Utils'
+import TaskList from './TaskList'
 
 export const GoToFuncs = createContext()
 

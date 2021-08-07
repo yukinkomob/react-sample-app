@@ -1,5 +1,5 @@
-import React, { useContext, memo, useCallback } from 'react'
 import PropTypes from 'prop-types'
+import React, { memo, useCallback, useContext } from 'react'
 import { LocalStorageFuncs, ToastFuncs } from '../pages/Main'
 
 const TaskInputForm = memo((props) => {

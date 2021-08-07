@@ -1,8 +1,7 @@
-import React from 'react'
 import PropTypes from 'prop-types'
+import React, { useEffect } from 'react'
 import ToggleSwitch from '../../components/ToggleSwitch'
 import { UseToDoData } from '../../hooks/useToDoData'
-import { useEffect } from 'react'
 
 let enabledWebApi = false
 

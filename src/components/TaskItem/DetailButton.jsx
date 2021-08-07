@@ -1,7 +1,7 @@
-import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
-import { GoToFuncs } from '../TaskDisplay'
+import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
+import { GoToFuncs } from '../TaskDisplay'
 
 const DetailButton = (props) => {
   const { id } = props.args

@@ -1,9 +1,9 @@
 import React from 'react'
-import { useParams, useLocation } from 'react-router-dom'
-import Header from '../components/Header'
+import { useLocation, useParams } from 'react-router-dom'
 import BackToLink from '../components/Detail/BackToLink'
-import DetailTitle from '../components/Detail/DetailTitle'
 import DetailFormsTable from '../components/Detail/DetailFormsTable'
+import DetailTitle from '../components/Detail/DetailTitle'
+import Header from '../components/Header'
 
 const Detail = () => {
   const { id } = useParams()

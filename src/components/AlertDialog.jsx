@@ -1,7 +1,6 @@
-import React, { createContext } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { Fragment, useState } from 'react'
 import PropTypes from 'prop-types'
+import React, { createContext, Fragment, useState } from 'react'
 
 export const DialogFuncs = createContext()
 export let openModal

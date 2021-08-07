@@ -1,8 +1,8 @@
-import React, { memo } from 'react'
 import PropTypes from 'prop-types'
-import DetailButton from './TaskItem/DetailButton'
+import React, { memo } from 'react'
 import CompleteButton from './TaskItem/CompleteButton'
 import DeleteButton from './TaskItem/DeleteButton'
+import DetailButton from './TaskItem/DetailButton'
 
 const TaskItem = memo((props) => {
   const { item, type, changeIsCompleted, deleteItem, setFocus } = props.args

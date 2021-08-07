@@ -1,15 +1,15 @@
+import PropTypes from 'prop-types'
 import React, {
-  useEffect,
-  useContext,
-  useState,
   memo,
   useCallback,
+  useContext,
+  useEffect,
+  useState,
 } from 'react'
-import PropTypes from 'prop-types'
-import TaskItem from './TaskItem'
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { LocalStorageFuncs, ToastFuncs } from '../pages/Main'
 import { DialogFuncs } from './AlertDialog'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import TaskItem from './TaskItem'
 
 /**
  * Moves an item from one list to another list.
