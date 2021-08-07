@@ -177,29 +177,33 @@ const Main = () => {
                     未完了：{uncompleted_num} 件
                   </h2>
                   <TaskList
-                    list={list}
-                    setList={setList}
-                    inputItem={inputItem}
-                    setInputItem={setInputItem}
-                    changeIsCompleted={changeIsCompleted}
-                    type={{ isComplete: false }}
-                    focusInfo={focusInfo}
-                    setFocusInfo={setFocusInfo}
-                    nullFocusInfo={NullFocusInfo}
+                    args={{
+                      list,
+                      setList,
+                      inputItem,
+                      setInputItem,
+                      changeIsCompleted,
+                      type: { isComplete: false },
+                      focusInfo,
+                      setFocusInfo,
+                      nullFocusInfo: NullFocusInfo,
+                    }}
                   />
                   <h2 className="text-2xl m-2 p-2 text-blue-800">
                     完了：{completed_num} 件
                   </h2>
                   <TaskList
-                    list={list}
-                    setList={setList}
-                    inputItem={inputItem}
-                    setInputItem={setInputItem}
-                    changeIsCompleted={changeIsCompleted}
-                    type={{ isComplete: true }}
-                    focusInfo={focusInfo}
-                    setFocusInfo={setFocusInfo}
-                    nullFocusInfo={NullFocusInfo}
+                    args={{
+                      list,
+                      setList,
+                      inputItem,
+                      setInputItem,
+                      changeIsCompleted,
+                      type: { isComplete: true },
+                      focusInfo,
+                      setFocusInfo,
+                      nullFocusInfo: NullFocusInfo,
+                    }}
                   />
                 </GoToFuncs.Provider>
               </div>

@@ -29,15 +29,17 @@ const move = (source, destination, droppableSource, droppableDestination) => {
 }
 
 const TaskList = memo((props) => {
-  let list = props.list
-  const setList = props.setList
-  const inputItem = props.inputItem
-  const setInputItem = props.setInputItem
-  const changeIsCompleted = props.changeIsCompleted
-  const type = props.type
-  const focusInfo = props.focusInfo
-  const setFocusInfo = props.setFocusInfo
-  const nullFocusInfo = props.nullFocusInfo
+  const {
+    setList,
+    inputItem,
+    setInputItem,
+    changeIsCompleted,
+    type,
+    focusInfo,
+    setFocusInfo,
+    nullFocusInfo,
+  } = props.args
+  let { list } = props.args
 
   const showToast = useContext(ToastFuncs)
   const openModal = useContext(DialogFuncs)
@@ -185,15 +187,7 @@ const TaskList = memo((props) => {
 TaskList.displayName = 'TaskList'
 
 TaskList.propTypes = {
-  list: PropTypes.array,
-  setList: PropTypes.func,
-  inputItem: PropTypes.object,
-  setInputItem: PropTypes.func,
-  changeIsCompleted: PropTypes.func,
-  type: PropTypes.object,
-  focusInfo: PropTypes.object,
-  setFocusInfo: PropTypes.func,
-  nullFocusInfo: PropTypes.object,
+  args: PropTypes.object,
 }
 
 export default TaskList
