@@ -1,52 +1,19 @@
 import React, { useState, createContext, useCallback, useMemo } from 'react'
-import { useHistory } from 'react-router-dom'
 import Header from '../components/Header'
 import TaskInputForm from '../components/TaskInputForm'
-import TaskList from '../components/TaskList'
-import toast, { Toaster } from 'react-hot-toast'
+import { Toaster } from 'react-hot-toast'
 import AlertDialog, { DialogFuncs, openModal } from '../components/AlertDialog'
-import ToggleSwitch from '../components/ToggleSwitch'
-import { UseToDoData } from '../hooks/useToDoData'
-import { useEffect } from 'react'
+import WebListToggleSwitch from '../components/Main/WebListToggleSwitch'
+import { saveToDo, loadToDo } from '../utils/LocalStorage'
+import { NullFocusInfo } from '../utils/NullData'
+import { showToast } from '../utils/Utils'
+import ToDoDisplay from '../components/ToDoDisplay'
 
-export const GoToFuncs = createContext()
 export const LocalStorageFuncs = createContext()
 export const ToastFuncs = createContext()
 
-const toDoLabel = 'toDoData'
-
-let enabledWebApi = false
-
-const save = (key, data) => {
-  const json = JSON.stringify(data)
-  localStorage.setItem(key, json)
-}
-
-const load = (key) => {
-  let getjson
-  try {
-    getjson = localStorage.getItem(key)
-    return JSON.parse(getjson)
-  } catch (e) {
-    console.log(e.message)
-    return []
-  }
-}
-
-const saveToDo = (data) => {
-  save(toDoLabel, data)
-}
-
-const loadToDo = () => {
-  return load(toDoLabel)
-}
-
 const Main = () => {
-  const { webList, isLoading, fetch } = UseToDoData()
-  useEffect(() => {
-    fetch()
-  }, [fetch])
-  const tempList = enabledWebApi ? [...webList] : loadToDo() ?? []
+  const tempList = loadToDo() ?? []
   const [list, setList] = useState(tempList ? [...tempList] : [])
   const [num, setNum] = useState('0')
   const [inputItem, setInputItem] = useState({
@@ -55,26 +22,6 @@ const Main = () => {
     isComplete: false,
     isFocus: false,
   })
-
-  const uncompleted_num = useMemo(() => {
-    if (!list || list.length === 0) {
-      return 0
-    }
-    return list.filter((item) => item.isComplete === false).length
-  }, [list])
-  const completed_num = useMemo(() => {
-    if (!list || list.length === 0) {
-      return 0
-    }
-    return list.filter((item) => item.isComplete === true).length
-  }, [list])
-
-  const history = useHistory()
-
-  const NullFocusInfo = {
-    id: -1,
-    isFocus: false,
-  }
 
   const [focusInfo, setFocusInfo] = useState(NullFocusInfo)
 
@@ -89,50 +36,6 @@ const Main = () => {
     },
     [list]
   )
-
-  const sampleData = {
-    id: 100,
-    title: '掃除をする',
-    category: '家事2',
-    content:
-      '最近溜まっていた部分の掃除をする。掃除には掃除道具を利用して、効率的に進める。２',
-    expiredDate: '2022-07-25',
-    registeredDate: '2022-07-20',
-  }
-
-  const goToDetail = useCallback(
-    (e, id) => {
-      e.preventDefault()
-      e.stopPropagation()
-      history.push(`/temp/${id}`, { data: sampleData })
-    },
-    [sampleData]
-  )
-
-  const showToast = (msg, type) => {
-    switch (type) {
-      case 'success':
-        toast.success(msg)
-        break
-      case 'error':
-        toast.error(msg)
-        break
-      default:
-        toast(msg)
-        break
-    }
-  }
-
-  const switchList = (enabled) => {
-    enabledWebApi = enabled
-    if (enabled) {
-      console.log('sL', webList)
-      setList([...webList])
-    } else {
-      const savedList = loadToDo()
-      setList(savedList ? savedList : [])
-    }
-  }
 
   return (
     <div className="App">
@@ -167,46 +70,19 @@ const Main = () => {
                   }}
                 />
               </div>
-              <div className="text-center">
-                <h2 className="text-xl p-2 m-2">Web APIでデータ取得</h2>
-                <ToggleSwitch switchList={switchList} />
-              </div>
-              <div>
-                <GoToFuncs.Provider value={goToDetail}>
-                  <h2 className="text-2xl m-2 p-2 text-blue-800">
-                    未完了：{uncompleted_num} 件
-                  </h2>
-                  <TaskList
-                    args={{
-                      list,
-                      setList,
-                      inputItem,
-                      setInputItem,
-                      changeIsCompleted,
-                      type: { isComplete: false },
-                      focusInfo,
-                      setFocusInfo,
-                      nullFocusInfo: NullFocusInfo,
-                    }}
-                  />
-                  <h2 className="text-2xl m-2 p-2 text-blue-800">
-                    完了：{completed_num} 件
-                  </h2>
-                  <TaskList
-                    args={{
-                      list,
-                      setList,
-                      inputItem,
-                      setInputItem,
-                      changeIsCompleted,
-                      type: { isComplete: true },
-                      focusInfo,
-                      setFocusInfo,
-                      nullFocusInfo: NullFocusInfo,
-                    }}
-                  />
-                </GoToFuncs.Provider>
-              </div>
+              <WebListToggleSwitch args={{ loadToDo, setList }} />
+              <ToDoDisplay
+                args={{
+                  list,
+                  setList,
+                  inputItem,
+                  setInputItem,
+                  changeIsCompleted,
+                  focusInfo,
+                  setFocusInfo,
+                  NullFocusInfo,
+                }}
+              />
             </LocalStorageFuncs.Provider>
           </div>
         </ToastFuncs.Provider>
